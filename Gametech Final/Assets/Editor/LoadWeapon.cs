@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
+<<<<<<< HEAD
 public class LoadWeapon : EditorWindow
 {
 
@@ -39,10 +40,17 @@ public class LoadWeapon : EditorWindow
         skills.Add(skill2);
         Skill skill3 = new Skill((width / 3) * 2, height / 3 - 20, width, height, weapon.skills[2]);
         skills.Add(skill3);
+=======
+public class LoadWeapon : EditorWindow {
+
+    public void init(string text) {
+        Debug.Log(text);
+>>>>>>> 59af5e65d10e2a492600b45ec07aa9723a8c0fec
     }
 
     private void OnGUI()
     {
+<<<<<<< HEAD
         //scrollpos = EditorGUILayout.BeginScrollView(scrollpos, GUILayout.Height(height));
         //Debug.Log("CREATEWEAPON ONGUI");
         if (GUILayout.Button("SAVE", GUILayout.Width(100)))
@@ -107,4 +115,9 @@ public class LoadWeapon : EditorWindow
             weapon.skills.Add(skillobj);
         }
     }
+=======
+
+    }
+
+>>>>>>> 59af5e65d10e2a492600b45ec07aa9723a8c0fec
 }
