@@ -26,7 +26,7 @@ public class SkillTool : EditorWindow
             if (path.Length != 0)
             {
                 var fileText = File.ReadAllText(path);
-                LoadWeapon load = GetWindowWithRect<LoadWeapon>(new Rect(0, 0, 400, 500));
+                LoadWeapon load = GetWindowWithRect<LoadWeapon>(new Rect(0, 0, 600, 700));
                 load.init(fileText);
                 //Close();
             }

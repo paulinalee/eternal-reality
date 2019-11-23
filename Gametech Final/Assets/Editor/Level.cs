@@ -15,6 +15,14 @@ public class Level : GUIContent {
         type = null;
     }
 
+    public Level(LevelObject levobj)
+    {
+        power = levobj.power;
+        speed = levobj.speed;
+        range = levobj.range;
+        type = null;
+    }
+
     public void Draw() {
         GUILayout.BeginVertical("Box");
         GUILayout.BeginHorizontal("Box");
@@ -30,5 +38,11 @@ public class Level : GUIContent {
         range = EditorGUILayout.FloatField(range);
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
+    }
+
+    public void setValues(ref LevelObject levelobj) {
+        levelobj.power = power;
+        levelobj.speed = speed;
+        levelobj.range = range;
     }
 }
