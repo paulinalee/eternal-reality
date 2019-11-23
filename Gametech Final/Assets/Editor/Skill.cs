@@ -9,10 +9,7 @@ public class Skill : GUIContent {
     float x, y;
     float w, h;
     string name, description = "";
-<<<<<<< HEAD
     string path = "";
-=======
->>>>>>> 59af5e65d10e2a492600b45ec07aa9723a8c0fec
     List<Level> levels;
     int currentlevs, addedlevs;
 
@@ -25,7 +22,6 @@ public class Skill : GUIContent {
         levels.Add(new Level());
         currentlevs = 1;
         addedlevs = 1;
-<<<<<<< HEAD
     }
 
     public Skill(float xpos, float ypos, float windoww, float windowh, SkillObject skillobj)
@@ -47,14 +43,10 @@ public class Skill : GUIContent {
             addedlevs = i;
         }
     }
-=======
-    } 
->>>>>>> 59af5e65d10e2a492600b45ec07aa9723a8c0fec
 
     public void Draw() {
         Rect skillBox = new Rect(x, y, w / 3, h / 3 - 50);
         GUI.Box(skillBox, skillTexture);
-<<<<<<< HEAD
         if (skillBox.Contains(Event.current.mousePosition))
         {
             if (Event.current.type == EventType.MouseDown)
@@ -71,8 +63,6 @@ public class Skill : GUIContent {
                 }
             }
         }
-=======
->>>>>>> 59af5e65d10e2a492600b45ec07aa9723a8c0fec
         Rect levelBox = new Rect(x, y + (h / 3 - 50) + 5, w / 3, h - (h / 3 - 50));
         GUILayout.BeginArea(levelBox);
         GUILayout.BeginHorizontal();
@@ -104,7 +94,6 @@ public class Skill : GUIContent {
         Draw();
     }
 
-<<<<<<< HEAD
     public void setValues(ref SkillObject skillobj) {
         skillobj.name = name;
         skillobj.description = description;
@@ -117,6 +106,4 @@ public class Skill : GUIContent {
         }
     }
 
-=======
->>>>>>> 59af5e65d10e2a492600b45ec07aa9723a8c0fec
 }
