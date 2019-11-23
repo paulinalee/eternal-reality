@@ -16,12 +16,18 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (characterController.isGrounded) {
-			direction = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-			direction = direction * speed;
-		}
+        if (characterController.isGrounded)
+        {
+            direction = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+            direction *= speed;
 
-		direction.y -= gravity * Time.deltaTime;
-		characterController.Move(direction * Time.deltaTime);
+            if (Input.GetButton("Jump"))
+            {
+                direction.y = speed;
+            }
+        }
+		
+        direction.y -= gravity * Time.deltaTime;
+        characterController.Move(direction * Time.deltaTime);
 	}
 }
