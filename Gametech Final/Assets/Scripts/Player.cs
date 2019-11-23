@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
 	public float speed = 5.0f;
 	public float gravity = 9.8f;
 	private Vector3 direction = Vector3.zero;
+    public float mouseSens = 2.0f;
 	// Use this for initialization
 	void Start () {
 		characterController = GetComponent<CharacterController>();
@@ -30,6 +31,10 @@ public class Player : MonoBehaviour {
 
         direction.y -= gravity * Time.deltaTime;
         direction = transform.TransformDirection(direction);
+        if(Input.GetAxis("Mouse X") < 0)
+            transform.Rotate(Vector3.up * -mouseSens);
+        if(Input.GetAxis("Mouse X") > 0)
+            transform.Rotate(Vector3.up * mouseSens);
         characterController.Move(direction * Time.deltaTime);
 
 	}
