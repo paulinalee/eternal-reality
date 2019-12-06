@@ -6,9 +6,9 @@ public class SkillLevel
 {
     // Start is called before the first frame update
 
-    private int power, speed, range;
+    private float power, speed, range;
 
-    public SkillLevel(int pwr, int spd, int rng) {
+    public SkillLevel(float pwr, float spd, float rng) {
         power = pwr;
         speed = spd;
         range = rng;
@@ -24,15 +24,15 @@ public class SkillLevel
         
     }
 
-    public int getPower() {
+    public float getPower() {
 		return power;
 	}
 
-	public int getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
 
-	public int getRange() {
+	public float getRange() {
 		return range;
 	}
 }

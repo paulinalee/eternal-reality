@@ -1,74 +1,224 @@
 fileFormatVersion: 2
 guid: 428e87d475580ca458360e8c4956c12b
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: Object001
-    100004: Object002
-    100006: Object003
-    100008: Object005
-    100010: Panther
-    100012: PantherHead
-    100014: PantherLLeg1
-    100016: PantherLLeg1 1
-    100018: PantherLLegCollarbone
-    100020: PantherLLegPalm
-    100022: PantherLLegPalm 1
-    100024: PantherLLegPlatform
-    100026: PantherLLegPlatform 1
-    100028: PantherNeck
-    100030: PantherPelvis
-    100032: PantherRibcage
-    100034: PantherRLeg1
-    100036: PantherRLeg1 1
-    100038: PantherRLegCollarbone
-    100040: PantherRLegPalm
-    100042: PantherRLegPalm 1
-    100044: PantherRLegPlatform
-    100046: PantherRLegPlatform 1
-    100048: PantherSpine1
-    100050: PantherSpine2
-    100052: PantherTail1
-    400000: //RootNode
-    400002: Object001
-    400004: Object002
-    400006: Object003
-    400008: Object005
-    400010: Panther
-    400012: PantherHead
-    400014: PantherLLeg1
-    400016: PantherLLeg1 1
-    400018: PantherLLegCollarbone
-    400020: PantherLLegPalm
-    400022: PantherLLegPalm 1
-    400024: PantherLLegPlatform
-    400026: PantherLLegPlatform 1
-    400028: PantherNeck
-    400030: PantherPelvis
-    400032: PantherRibcage
-    400034: PantherRLeg1
-    400036: PantherRLeg1 1
-    400038: PantherRLegCollarbone
-    400040: PantherRLegPalm
-    400042: PantherRLegPalm 1
-    400044: PantherRLegPlatform
-    400046: PantherRLegPlatform 1
-    400048: PantherSpine1
-    400050: PantherSpine2
-    400052: PantherTail1
-    4300000: Object003
-    4300002: Object001
-    4300004: Object002
-    4300006: Object005
-    7400000: elf pet
-    9500000: //RootNode
-    11100000: //RootNode
-    13700000: Object001
-    13700002: Object002
-    13700004: Object003
-    13700006: Object005
-  externalObjects: {}
+  serializedVersion: 26
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: Object001
+  - first:
+      1: 100004
+    second: Object002
+  - first:
+      1: 100006
+    second: Object003
+  - first:
+      1: 100008
+    second: Object005
+  - first:
+      1: 100010
+    second: Panther
+  - first:
+      1: 100012
+    second: PantherHead
+  - first:
+      1: 100014
+    second: PantherLLeg1
+  - first:
+      1: 100016
+    second: PantherLLeg1 1
+  - first:
+      1: 100018
+    second: PantherLLegCollarbone
+  - first:
+      1: 100020
+    second: PantherLLegPalm
+  - first:
+      1: 100022
+    second: PantherLLegPalm 1
+  - first:
+      1: 100024
+    second: PantherLLegPlatform
+  - first:
+      1: 100026
+    second: PantherLLegPlatform 1
+  - first:
+      1: 100028
+    second: PantherNeck
+  - first:
+      1: 100030
+    second: PantherPelvis
+  - first:
+      1: 100032
+    second: PantherRibcage
+  - first:
+      1: 100034
+    second: PantherRLeg1
+  - first:
+      1: 100036
+    second: PantherRLeg1 1
+  - first:
+      1: 100038
+    second: PantherRLegCollarbone
+  - first:
+      1: 100040
+    second: PantherRLegPalm
+  - first:
+      1: 100042
+    second: PantherRLegPalm 1
+  - first:
+      1: 100044
+    second: PantherRLegPlatform
+  - first:
+      1: 100046
+    second: PantherRLegPlatform 1
+  - first:
+      1: 100048
+    second: PantherSpine1
+  - first:
+      1: 100050
+    second: PantherSpine2
+  - first:
+      1: 100052
+    second: PantherTail1
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: Object001
+  - first:
+      4: 400004
+    second: Object002
+  - first:
+      4: 400006
+    second: Object003
+  - first:
+      4: 400008
+    second: Object005
+  - first:
+      4: 400010
+    second: Panther
+  - first:
+      4: 400012
+    second: PantherHead
+  - first:
+      4: 400014
+    second: PantherLLeg1
+  - first:
+      4: 400016
+    second: PantherLLeg1 1
+  - first:
+      4: 400018
+    second: PantherLLegCollarbone
+  - first:
+      4: 400020
+    second: PantherLLegPalm
+  - first:
+      4: 400022
+    second: PantherLLegPalm 1
+  - first:
+      4: 400024
+    second: PantherLLegPlatform
+  - first:
+      4: 400026
+    second: PantherLLegPlatform 1
+  - first:
+      4: 400028
+    second: PantherNeck
+  - first:
+      4: 400030
+    second: PantherPelvis
+  - first:
+      4: 400032
+    second: PantherRibcage
+  - first:
+      4: 400034
+    second: PantherRLeg1
+  - first:
+      4: 400036
+    second: PantherRLeg1 1
+  - first:
+      4: 400038
+    second: PantherRLegCollarbone
+  - first:
+      4: 400040
+    second: PantherRLegPalm
+  - first:
+      4: 400042
+    second: PantherRLegPalm 1
+  - first:
+      4: 400044
+    second: PantherRLegPlatform
+  - first:
+      4: 400046
+    second: PantherRLegPlatform 1
+  - first:
+      4: 400048
+    second: PantherSpine1
+  - first:
+      4: 400050
+    second: PantherSpine2
+  - first:
+      4: 400052
+    second: PantherTail1
+  - first:
+      43: 4300000
+    second: Object003
+  - first:
+      43: 4300002
+    second: Object001
+  - first:
+      43: 4300004
+    second: Object002
+  - first:
+      43: 4300006
+    second: Object005
+  - first:
+      74: 7400000
+    second: elf pet
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      111: 11100000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Object001
+  - first:
+      137: 13700002
+    second: Object002
+  - first:
+      137: 13700004
+    second: Object003
+  - first:
+      137: 13700006
+    second: Object005
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #27'
+    second: {fileID: 2100000, guid: e0432ec319bf3bd46bfb96cad245362a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #29'
+    second: {fileID: 2100000, guid: 6110baacfe6b7094485efc30042c8ed6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #30'
+    second: {fileID: 2100000, guid: 44749b974ceb3294482fe8577c6e4e31, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #31'
+    second: {fileID: 2100000, guid: 3516680a650adb14a900a6a2ea6705e8, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -99,6 +249,7 @@ ModelImporter:
     - serializedVersion: 16
       name: elf pet
       takeName: elf pet
+      internalID: 0
       firstFrame: 0
       lastFrame: 100
       wrapMode: 2
@@ -188,6 +339,8 @@ ModelImporter:
     globalScale: 0.01
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
@@ -195,27 +348,36 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 0
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 4
     normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips:
+  - 0672d0af8c3cc8245af858351d3b6c33
+  - ba9051795f1603d488a0ea998dbacc27
+  - 83a1a7554c6f87d4ca1b10a0b635da63
+  - 3a01564ae5eb666408a3de30ecaa958c
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -225,6 +387,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 0.01
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

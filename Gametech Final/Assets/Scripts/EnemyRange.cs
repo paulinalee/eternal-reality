@@ -10,7 +10,8 @@ public class EnemyRange : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         parent = transform.parent.gameObject.GetComponent<Enemy>();
-	}
+        parent.colliderEntered(GameObject.FindWithTag("Player"));
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -19,16 +20,16 @@ public class EnemyRange : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player") {
+        /*if (other.tag == "Player") {
             parent.colliderEntered(other.gameObject);
-        }
+        }*/
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        /*if (other.tag == "Player")
         {
             parent.colliderExited();
-        }
+        }*/
     }
 }

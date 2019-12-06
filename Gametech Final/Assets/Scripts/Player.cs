@@ -9,33 +9,66 @@ public class Player : MonoBehaviour {
 	public float gravity = 9.8f;
 	private Vector3 direction = Vector3.zero;
     public float mouseSens = 2.0f;
+    public Weapon weapon;
+    private Dictionary<string, WeaponInfo> weapons;
+    private bool acceptInput;
+    public int health = 100;
 	// Use this for initialization
 	void Start () {
 		characterController = GetComponent<CharacterController>();
+        acceptInput = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (characterController.isGrounded){
-            direction = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-            direction *= speed;
-            if (Input.GetButton ("Jump")) {
-                direction.y = speed;
+        if (acceptInput) {
+            checkAttack();
+            if (characterController.isGrounded){
+                direction = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+                direction *= speed;
+                if (Input.GetButton ("Jump")) {
+                    direction.y = speed;
+                }
+            } else {
+                direction = new Vector3(Input.GetAxis("Horizontal"), direction.y,
+                Input.GetAxis("Vertical"));
+                direction.x *= speed;
+                direction.z *= speed;
             }
-        } else {
-            direction = new Vector3(Input.GetAxis("Horizontal"), direction.y,
-            Input.GetAxis("Vertical"));
-            direction.x *= speed;
-            direction.z *= speed;
+
+            direction.y -= gravity * Time.deltaTime;
+            direction = transform.TransformDirection(direction);
+            if(Input.GetAxis("Mouse X") < 0)
+                transform.Rotate(Vector3.up * -mouseSens);
+            if(Input.GetAxis("Mouse X") > 0)
+                transform.Rotate(Vector3.up * mouseSens);
+            characterController.Move(direction * Time.deltaTime);
         }
-
-        direction.y -= gravity * Time.deltaTime;
-        direction = transform.TransformDirection(direction);
-        if(Input.GetAxis("Mouse X") < 0)
-            transform.Rotate(Vector3.up * -mouseSens);
-        if(Input.GetAxis("Mouse X") > 0)
-            transform.Rotate(Vector3.up * mouseSens);
-        characterController.Move(direction * Time.deltaTime);
-
 	}
+
+    void checkAttack() {
+        if (Input.GetKeyUp(KeyCode.Q)) {
+            Debug.Log("Skill 1 used!");
+        } else if (Input.GetKeyUp(KeyCode.E)) {
+            Debug.Log("Skill 2 used!");
+        } else if (Input.GetKeyUp(KeyCode.R)) {
+            Debug.Log("Skill 3 used!");
+        }
+    }
+
+    public void setMovable(bool val) {
+        acceptInput = val;
+    }
+
+    public void healthMod(int val) {
+        health += val;
+        Debug.Log(health);
+    }
+
+    
+    public void changeWeapon(string weaponName) {
+        Debug.Log("received request to swap weapons");
+        weapons = GameObject.Find("WeaponSelect").GetComponent<WeaponSelect>().GetWeapons();
+        weapon.updateWeapon(weapons[weaponName]);
+    }
 }

@@ -1,0 +1,3 @@
+Once you go past the forest, you will have to fight waves of enemies.
+Defeating enemies drops points,
+Once you defeat a certain number of waves, the round will end. 

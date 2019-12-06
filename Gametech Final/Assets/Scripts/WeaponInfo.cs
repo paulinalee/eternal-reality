@@ -9,19 +9,19 @@ public class WeaponInfo {
     public string name = "";
     public string description = "";
     public string imgpath = "";
-    public List<SkillObject> skills = new List<SkillObject>();
+    public List<SkillInfo> skills = new List<SkillInfo>();
 }
 
 [Serializable]
-public class SkillObject {
+public class SkillInfo {
     public string name = "";
     public string description = "";
     public string imgpath = "";
-    public List<LevelObject> levels = new List<LevelObject>();
+    public List<LevelInfo> levels = new List<LevelInfo>();
 }
 
 [Serializable]
-public class LevelObject {
+public class LevelInfo {
     public float power = 0.0f;
     public float range = 0.0f;
     public float speed = 0.0f;

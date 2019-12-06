@@ -16,18 +16,16 @@ public class LoadWeapon : EditorWindow
     string name = "weapon";
     string descrip = "";
     string path = "";
+    string oldName = "";
     WeaponObject weapon;
 
     public void init(string text)
     {
         weapon = JsonUtility.FromJson<WeaponObject>(text);
-    }
-
-    void OnEnable()
-    {
         //load image, name, descrip from file
         path = weapon.imgpath;
         name = weapon.name;
+        oldName = name;
         descrip = weapon.description;
         weaponTexture = new Texture2D(2, 2);
         weaponTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
@@ -50,6 +48,11 @@ public class LoadWeapon : EditorWindow
             setValues();
             string json = JsonUtility.ToJson(weapon);
             Debug.Log("FILE SAVED!");
+            File.Delete(Application.dataPath + "/Weapons/" + oldName + ".txt"); // delete the old file
+            string metaPath = Application.dataPath + "/Weapons/" + oldName + ".txt.meta";
+            if (File.Exists(metaPath)) {
+                File.Delete(metaPath); // cleanup metadata so the editor doesnt scream
+            }
             File.WriteAllText(Application.dataPath + "/Weapons/" + name + ".txt", json);
         }
         Rect weaponBoxPos = new Rect(position.width / 3, 10, position.width / 3, position.height / 3 - 50);

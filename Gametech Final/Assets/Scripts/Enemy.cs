@@ -7,17 +7,28 @@ public class Enemy : MonoBehaviour {
     private Transform child;
     private bool chasing;
     private Transform player;
-    public float speed;
+    public float speed = 5.0f;
+    public float range = 2.0f;
+    public float attackrate = 4.0f;
+    public int attackpower = 2;
+    private float attackcooldown = 0.0f;
+    Rigidbody rb;
+    bool grounded;
 
     // Use this for initialization
 	void Start () {
         child = transform.Find("EnemyRange");
+        rb = GetComponent<Rigidbody>();
         chasing = false;
-        speed = 5.0f;
+        GetComponent<Renderer>().enabled = false;
+        grounded = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (grounded) {
+            GetComponent<Renderer>().enabled = true;
+        }
         if (chasing) {
             chasePlayer();
         }
@@ -40,6 +51,22 @@ public class Enemy : MonoBehaviour {
 
     private void chasePlayer() {
         transform.LookAt(new Vector3(player.position.x, this.transform.position.y, player.position.z));
-        transform.Translate(new Vector3(speed * Time.deltaTime, 0, speed * Time.deltaTime));
+        if (Vector3.Distance(transform.position, player.position) > range)
+            transform.Translate(new Vector3(speed * Time.deltaTime, 0, speed * Time.deltaTime));
+        else {
+            //stop moving, attack
+            //transform.Translate(new Vector3(0, 0, 0));
+            if (Time.time >= attackcooldown) {
+                Debug.Log("attack!!");
+                transform.Translate(new Vector3(0, 10.0f * Time.deltaTime, 0));
+                player.GetComponent<Player>().healthMod(attackpower * -1);
+                attackcooldown = Time.time + attackrate;
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        grounded = true;
     }
 }

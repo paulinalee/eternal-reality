@@ -1,0 +1,10 @@
+Welcome to the game!
+I don't think I've seen you around before.
+Would you like me to go over the rules of the game?
+||OPTIONS
+Sure!
+Nah, I've got this.
+||BRANCHFILES
+tutorial
+goodbye
+||ENDCHOICE
