@@ -77,8 +77,10 @@ public class UpgradeUI : MonoBehaviour
     }
 
     public void upgradeSkill(int skillNumber) {
-        weaponSkills[skillNumber].upgrade();
+        int oldLevel = weaponSkills[skillNumber].upgrade();
         Debug.Log("upgraded skill " + skillNumber.ToString());
+        WeaponSelect weapManager = GameObject.Find("WeaponSelect").GetComponent<WeaponSelect>();
+        weapManager.saveUpgradeState(weaponName.GetComponent<Text>().text, skillNumber, oldLevel + 1);
         Refresh();
     }
 }

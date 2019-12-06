@@ -54,9 +54,9 @@ public class Skill : GUIContent {
                 path = EditorUtility.OpenFilePanel("Load Skill Image", "", "png");
                 if (path.Length != 0)
                 {
-                    if (path.StartsWith(Application.dataPath))
+                    if (path.StartsWith(Application.streamingAssetsPath))
                     {
-                        path = "Assets" + path.Substring(Application.dataPath.Length);
+                        path = "Assets" + path.Substring(Application.streamingAssetsPath.Length);
                     }
                     Debug.Log(path);
                     skillTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);

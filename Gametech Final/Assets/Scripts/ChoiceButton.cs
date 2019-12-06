@@ -21,6 +21,7 @@ public class ChoiceButton : MonoBehaviour
         NPC npc = GameObject.Find("NPC").GetComponent<NPC>();
         npc.changeSpeechFile(choiceFile);
         npc.branchConversation();
+        npc.EndChoiceMode();
     }
 
     public void setChoiceFile(string file) {

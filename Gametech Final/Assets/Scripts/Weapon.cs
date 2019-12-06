@@ -5,6 +5,7 @@ using System.IO;
 public class Weapon : MonoBehaviour {
 
 	public string weaponName, weaponDescription, type, imagePath;
+	public WeaponSelect weaponManager;
 	private List<WeaponSkill> skills;
 	// Use this for initialization
 	void Start () {
@@ -37,17 +38,34 @@ public class Weapon : MonoBehaviour {
 	}
 
 	public void updateWeapon(WeaponInfo newWeapon) {
+		Dictionary<string, int[]> prevWeaponLevels = weaponManager.GetUpgrades();
+		
 		weaponName = newWeapon.name;
+		bool alreadyUpgraded = weaponManager.alreadyUpgraded(weaponName);
 		weaponDescription = newWeapon.description;
 		imagePath = newWeapon.imgpath;
 		skills = new List<WeaponSkill>();
-		foreach (SkillInfo skillInfo in newWeapon.skills) {
+
+		// construct the weapon object
+		for(int i = 0; i < 3; i++) {
+			SkillInfo skillInfo = newWeapon.skills[i];
 			List<SkillLevel> levels = new List<SkillLevel>();
+			int[] savedLevels = new int[3];
+			if (alreadyUpgraded) {
+				savedLevels = prevWeaponLevels[weaponName];
+			}
+
 			foreach(LevelInfo levelInfo in skillInfo.levels) {
 				levels.Add(new SkillLevel(levelInfo.power, levelInfo.range, levelInfo.speed));
 			}
-			skills.Add(new WeaponSkill(skillInfo.name, skillInfo.description, skillInfo.imgpath, levels));
+
+			WeaponSkill newSkill = new WeaponSkill(skillInfo.name, skillInfo.description, skillInfo.imgpath, levels);
+			if (alreadyUpgraded) {
+				Debug.Log("setting skill " + i + "'s level to " + savedLevels[i]);
+				newSkill.setLevel(savedLevels[i]);
+			}
+			skills.Add(newSkill);
 		}
-		Debug.Log("weapon swapped");
+		Debug.Log("weapon swapped to: " + weaponName);
 	}
 }

@@ -32,7 +32,6 @@ public class WeaponSkill {
 		skillDescription = description;
 		imagePath = path;
 		levels = lvls;
-		Debug.Log("weap levels: " + levels.Count);
 		maxLevel = levels.Count;
 		currentIndex = 0;
 		nextIndex = currentIndex + 1;
@@ -59,12 +58,22 @@ public class WeaponSkill {
 		return imagePath;
 	}
 
-	public void upgrade() {
+	public int upgrade() {
+		int oldLevel = currentIndex;
 		if (!isMaxed()) {
 			currentIndex = nextIndex;
 			nextIndex++;
 			activeSkill = levels[currentIndex];
 		}
+		return oldLevel;
+	}
+
+	public int getLevel() {
+		return currentIndex;
+	}
+	public void setLevel(int level) {
+		currentIndex = level;
+		nextIndex = currentIndex + 1;
 	}
 
 	public bool isMaxed() {

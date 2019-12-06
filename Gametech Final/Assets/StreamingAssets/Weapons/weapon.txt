@@ -1,0 +1,1 @@
+{"name":"weapon","description":"","imgpath":"","skills":[{"name":"","description":"","imgpath":"","levels":[{"power":0.0,"range":0.0,"speed":0.0}]},{"name":"","description":"","imgpath":"","levels":[{"power":0.0,"range":0.0,"speed":0.0}]},{"name":"","description":"","imgpath":"","levels":[{"power":0.0,"range":0.0,"speed":0.0}]}]}

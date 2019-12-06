@@ -48,12 +48,12 @@ public class LoadWeapon : EditorWindow
             setValues();
             string json = JsonUtility.ToJson(weapon);
             Debug.Log("FILE SAVED!");
-            File.Delete(Application.dataPath + "/Weapons/" + oldName + ".txt"); // delete the old file
-            string metaPath = Application.dataPath + "/Weapons/" + oldName + ".txt.meta";
+            File.Delete(Application.streamingAssetsPath + "/Weapons/" + oldName + ".txt"); // delete the old file
+            string metaPath = Application.streamingAssetsPath + "/Weapons/" + oldName + ".txt.meta";
             if (File.Exists(metaPath)) {
                 File.Delete(metaPath); // cleanup metadata so the editor doesnt scream
             }
-            File.WriteAllText(Application.dataPath + "/Weapons/" + name + ".txt", json);
+            File.WriteAllText(Application.streamingAssetsPath + "/Weapons/" + name + ".txt", json);
         }
         Rect weaponBoxPos = new Rect(position.width / 3, 10, position.width / 3, position.height / 3 - 50);
         GUI.Box(weaponBoxPos, weaponTexture);
@@ -85,9 +85,9 @@ public class LoadWeapon : EditorWindow
                 path = EditorUtility.OpenFilePanel("Load Weapon Image", "", "png");
                 if (path.Length != 0)
                 {
-                    if (path.StartsWith(Application.dataPath))
+                    if (path.StartsWith(Application.streamingAssetsPath))
                     {
-                        path = "Assets" + path.Substring(Application.dataPath.Length);
+                        path = "Assets" + path.Substring(Application.streamingAssetsPath.Length);
                     }
                     Debug.Log(path);
                     weaponTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);

@@ -7,7 +7,7 @@ using System;
 public class NPC : MonoBehaviour
 {
     // Start is called before the first frame update
-    protected bool interactable, inConversation;
+    protected bool interactable, inConversation, inChoiceMode;
     protected Canvas display, choiceDisplay;
     protected Canvas speechDisplay;
     protected Text speechText;
@@ -30,12 +30,12 @@ public class NPC : MonoBehaviour
         speechDisplay = GameObject.Find("SpeechView").GetComponent<Canvas>();
         speechText = GameObject.Find("SpeechView/Text").GetComponent<Text>();
         if (string.IsNullOrEmpty(speechFile)) {
-            speechFile = Application.dataPath + "/NPC/" + fileName + ".txt";
+            speechFile = Application.streamingAssetsPath + "/NPC/" + fileName + ".txt";
         }
     }
 
     public void changeSpeechFile(string newFile) {
-        speechFile = Application.dataPath + "/NPC/" + newFile + ".txt";
+        speechFile = Application.streamingAssetsPath + "/NPC/" + newFile + ".txt";
         Debug.Log("new file path: " + speechFile);
         fileReader = new StreamReader(speechFile);
     }
@@ -45,7 +45,11 @@ public class NPC : MonoBehaviour
         if (string.IsNullOrEmpty(nextLine)) {
             endConversation();
         } else {
-            speechText.text = nextLine;
+            if (nextLine.StartsWith("||OPTIONS")) {
+                processBranches();
+            } else {
+                speechText.text = nextLine;
+            }
         }
     }
     
@@ -72,6 +76,7 @@ public class NPC : MonoBehaviour
 
    public void processBranches() {
        // TODO: error handling when you heck up
+       inChoiceMode = true;
        string nextLine = fileReader.ReadLine();
         List<string> choices = new List<string>();
         while (!nextLine.StartsWith("||BRANCHFILES")) {
@@ -95,9 +100,13 @@ public class NPC : MonoBehaviour
 
     void generateChoices(Dictionary<string, string> choiceToFileMap) {
         choiceDisplay.enabled = true;
+        // make sure there are no other buttons
+        foreach(Transform child in choiceContainer.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
         foreach(KeyValuePair<string, string> entry in choiceToFileMap) {
             GameObject newButton = Instantiate(choiceButtonPrefab);
-            newButton.transform.parent = choiceContainer.transform;
+            newButton.transform.SetParent(choiceContainer.transform);
             Text choiceText = newButton.transform.Find("ChoiceText").GetComponent<Text>();
             newButton.GetComponent<ChoiceButton>().setChoiceFile(entry.Value);
             choiceText.text = entry.Key;
@@ -141,5 +150,10 @@ public class NPC : MonoBehaviour
             Debug.Log("player exit"); 
             interactable = false;
         } 
+    }
+
+    public void EndChoiceMode()
+    {
+        inChoiceMode = false;
     }
 }

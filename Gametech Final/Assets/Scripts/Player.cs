@@ -17,10 +17,13 @@ public class Player : MonoBehaviour {
 	void Start () {
 		characterController = GetComponent<CharacterController>();
         acceptInput = true;
+        // force the resolution
+        Screen.SetResolution (1920 , 1080, true, 60);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+      //  Debug.Log("position X: " + transform.position.x + " || position y: " + transform.position.y + " || position z: " + transform.position.z);
         if (acceptInput) {
             checkAttack();
             if (characterController.isGrounded){
@@ -67,7 +70,6 @@ public class Player : MonoBehaviour {
 
     
     public void changeWeapon(string weaponName) {
-        Debug.Log("received request to swap weapons");
         weapons = GameObject.Find("WeaponSelect").GetComponent<WeaponSelect>().GetWeapons();
         weapon.updateWeapon(weapons[weaponName]);
     }

@@ -1,0 +1,4 @@
+Once you go past the forest, you will have to fight waves of enemies.
+Defeating enemies drops points, which can be used to upgrade skills or restore your HP.
+Upgrades and healing can be done between rounds. A round will end once a certain number of waves of enemies are defeated.
+The map has multiple areas which will spawn enemies periodically. Pay attention, since some enemies can come from behind!

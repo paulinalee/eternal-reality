@@ -40,7 +40,7 @@ public class CreateWeapon : EditorWindow {
             setValues();
             string json = JsonUtility.ToJson(weapon);
             Debug.Log("FILE SAVED!");
-            File.WriteAllText(Application.dataPath + "/Weapons/" + name + ".txt", json);
+            File.WriteAllText(Application.streamingAssetsPath + "/Weapons/" + name + ".txt", json);
         }
         Rect weaponBoxPos = new Rect(position.width / 3, 10, position.width / 3, position.height / 3 - 50);
         GUI.Box(weaponBoxPos, weaponTexture);
@@ -72,9 +72,9 @@ public class CreateWeapon : EditorWindow {
                 path = EditorUtility.OpenFilePanel("Load Weapon Image", "", "png");
                 if (path.Length != 0)
                 {
-                    if (path.StartsWith(Application.dataPath))
+                    if (path.StartsWith(Application.streamingAssetsPath))
                     {
-                        path = "Assets" + path.Substring(Application.dataPath.Length);
+                        path = "Assets" + path.Substring(Application.streamingAssetsPath.Length);
                     }
                     weaponTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
                 }

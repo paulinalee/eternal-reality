@@ -26,6 +26,10 @@ public class WeaponNPC : NPC
         if (interactable) {
             if (Input.GetKeyUp(KeyCode.F) && !inConversation) {
                 inSelectionMode = false;
+                if (weaponSelected) {
+                    changeSpeechFile("prestartSwitch");
+                    weaponSelected = false;
+                }
                 beginConversation();
             } else if (inConversation) {
                 if (Input.GetKeyUp(KeyCode.F)) {
@@ -41,7 +45,7 @@ public class WeaponNPC : NPC
         // check if we are at a choice, if so set up the UI
         string nextLine = fileReader.ReadLine();
         if (string.IsNullOrEmpty(nextLine)) {
-            if (!inSelectionMode && !weaponSelected) {
+            if (!inChoiceMode && !inSelectionMode && !weaponSelected) {
                 // have yet to select a weapon
                 displayWeapons();
             } else if (weaponSelected) {
@@ -71,9 +75,14 @@ public class WeaponNPC : NPC
         speechDisplay.enabled = false;
         weaponDisplay.enabled = true;
         weapons = GameObject.Find("WeaponSelect").GetComponent<WeaponSelect>().GetWeapons();
+        // first we need to delete every child button that was previously here and redisplay
+        foreach(Transform child in weaponContainer.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
+
         foreach(KeyValuePair<string, WeaponInfo> entry in weapons) {
             GameObject newButton = Instantiate(weaponButtonPrefab);
-            newButton.transform.parent = weaponContainer.transform;
+            newButton.transform.SetParent(weaponContainer.transform);
             Text skillName = newButton.transform.Find("Name").GetComponent<Text>();
             skillName.text = entry.Value.name;
 
@@ -102,4 +111,10 @@ public class WeaponNPC : NPC
        // Debug.Log();
     }
 
+    public void startGame() {
+        // teleport to map middle
+        // hide (round manager will show npc and manage dialogue files)
+        transform.SetPositionAndRotation(new Vector3(-13.6f, 2.25f, -19f), transform.rotation);
+        gameObject.SetActive(false);
+    }
 }
