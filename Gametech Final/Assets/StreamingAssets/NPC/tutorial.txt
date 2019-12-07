@@ -2,3 +2,10 @@ Once you go past the forest, you will have to fight waves of enemies.
 Defeating enemies drops points, which can be used to upgrade skills or restore your HP.
 Upgrades and healing can be done between rounds. A round will end once a certain number of waves of enemies are defeated.
 The map has multiple areas which will spawn enemies periodically. Pay attention, since some enemies can come from behind!
+When a round ends, I'll teleport you to me and offer you my services.
+When you talk to me between rounds, I can help you upgrade your weapon, swap weapons, or even heal you.
+Aside from swapping weapons, which is free, my services cost a certain number of points.
+Points can be obtained by defeating enemies! Make sure to spend them wisely.
+Lastly, I'll be sure to keep track of which weapons you've already upgraded so that you can swap between weapons without losing upgrades.
+That should be it!
+Now then, without further ado...

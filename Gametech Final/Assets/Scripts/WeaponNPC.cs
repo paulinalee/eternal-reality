@@ -21,6 +21,13 @@ public class WeaponNPC : NPC
         base.Update();
     }
 
+    public override void beginConversation() {
+        if (weaponSelected) {
+            weaponSelected = false;
+            changeSpeechFile("prestartSwitch");
+        }
+        base.beginConversation();
+    }
     public override void advanceConversation() {
         if (!stopAdvancing) {
             string nextLine = fileReader.ReadLine();
