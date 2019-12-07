@@ -7,28 +7,22 @@ using System;
 public class NPC : MonoBehaviour
 {
     // Start is called before the first frame update
-    protected bool interactable, inConversation, inChoiceMode;
-    protected Canvas display, choiceDisplay;
-    protected Canvas speechDisplay;
-    protected Text speechText;
+    protected bool interactable, inConversation, stopAdvancing;
     protected Player player;
 
     protected string speechFile;
 
     protected StreamReader fileReader;
+
+    protected UI uiManager;
     public string fileName;
-    public GameObject choiceButtonPrefab, choiceContainer;
     
     public virtual void Start()
     {  
         interactable = false;
         inConversation = false;
-        display = GameObject.Find("NPCSpeech").GetComponent<Canvas>();
+        uiManager = GameObject.Find("UI").GetComponent<UI>();
         player = GameObject.Find("Player").GetComponent<Player>();
-        choiceDisplay = GameObject.Find("ChoiceView").GetComponent<Canvas>();
-        choiceContainer = GameObject.Find("ChoiceView/ChoiceButtons");
-        speechDisplay = GameObject.Find("SpeechView").GetComponent<Canvas>();
-        speechText = GameObject.Find("SpeechView/Text").GetComponent<Text>();
         if (string.IsNullOrEmpty(speechFile)) {
             speechFile = Application.streamingAssetsPath + "/NPC/" + fileName + ".txt";
         }
@@ -48,45 +42,43 @@ public class NPC : MonoBehaviour
             if (nextLine.StartsWith("||OPTIONS")) {
                 processBranches();
             } else {
-                speechText.text = nextLine;
+                uiManager.setSpeech(nextLine);
             }
         }
     }
-    
-    public virtual void resetDisplays() {
-        // conversations should begin with straight dialogue, never only choice buttons or weap buttons
-        display.enabled = true;
-        choiceDisplay.enabled = false;
-        speechDisplay.enabled = true;
-    }
 
-    public void beginConversation() {
+    public virtual void beginConversation() {
         player.setMovable(false);
         fileReader = new StreamReader(speechFile);
-        this.resetDisplays();
+        uiManager.resetDisplays();
         inConversation = true;
         advanceConversation();
     }
 
     public void endConversation() {
         player.setMovable(true);
-        display.enabled = false;
+        uiManager.hideDialogueBox();
         inConversation = false;
+        resetVariables();
     }
 
+    public virtual void resetVariables() {
+
+    }
    public void processBranches() {
        // TODO: error handling when you heck up
-       inChoiceMode = true;
+       stopAdvancing = true;
        string nextLine = fileReader.ReadLine();
         List<string> choices = new List<string>();
         while (!nextLine.StartsWith("||BRANCHFILES")) {
             choices.Add(nextLine);
-            Debug.Log("Added choice: " + nextLine);
             nextLine = fileReader.ReadLine();
         }
         nextLine = fileReader.ReadLine(); // read the "||BRANCHFILES" line
+
+        // reading all the branchfiles
         List<string> branchFiles = new List<string>();
-        while (!nextLine.StartsWith("||ENDCHOICE")) {
+        while (!nextLine.StartsWith("||METADATA")) {
             branchFiles.Add(nextLine);
             nextLine = fileReader.ReadLine();
         }
@@ -95,35 +87,32 @@ public class NPC : MonoBehaviour
         for (int i = 0; i < min; i++) {
             choiceToFileMap[choices[i]] = branchFiles[i];
         }
-        generateChoices(choiceToFileMap);
-    }
 
-    void generateChoices(Dictionary<string, string> choiceToFileMap) {
-        choiceDisplay.enabled = true;
-        // make sure there are no other buttons
-        foreach(Transform child in choiceContainer.transform) {
-            GameObject.Destroy(child.gameObject);
+        // reading from metadata to end of file and mapping
+        
+        // metadata is used only when buttons are supposed to lead to more than just dialogue (i.e. transition the ui screens)
+        nextLine = fileReader.ReadLine(); // read the "||METADATA" line
+        List<string> metadata = new List<string>();
+        while (!nextLine.StartsWith("||ENDCHOICE")) {
+            metadata.Add(nextLine);
+            nextLine = fileReader.ReadLine();
         }
-        foreach(KeyValuePair<string, string> entry in choiceToFileMap) {
-            GameObject newButton = Instantiate(choiceButtonPrefab);
-            newButton.transform.SetParent(choiceContainer.transform);
-            Text choiceText = newButton.transform.Find("ChoiceText").GetComponent<Text>();
-            newButton.GetComponent<ChoiceButton>().setChoiceFile(entry.Value);
-            choiceText.text = entry.Key;
-            Debug.Log("choice text is: " + choiceText.text);
+        Dictionary<string, string> choiceMetadata = new Dictionary<string, string>();
+        for (int i = 0; i < metadata.Count; i++) {
+            choiceMetadata[choices[i]] = metadata[i];
         }
+        uiManager.displayChoices(choiceToFileMap, choiceMetadata);
     }
 
     public void branchConversation() {
-        choiceDisplay.enabled = false;
-        speechDisplay.enabled = true;
+        uiManager.toggleBranchingDialogue();
         advanceConversation();
     }
 
     // Update is called once per frame
     public virtual void Update()
     {
-        if (interactable) {
+        if (interactable && !stopAdvancing) {
             if (Input.GetKeyUp(KeyCode.F) && !inConversation) {
                 beginConversation();
             } else if (inConversation) {
@@ -139,7 +128,6 @@ public class NPC : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {  
         if (other.GetComponent<Player>() != null) {
-            Debug.Log("player entered"); 
             interactable = true;
         }
     }
@@ -147,13 +135,12 @@ public class NPC : MonoBehaviour
     public void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<Player>() != null) {
-            Debug.Log("player exit"); 
             interactable = false;
         } 
     }
 
-    public void EndChoiceMode()
+    public void ContinueAdvancing()
     {
-        inChoiceMode = false;
+        stopAdvancing = false;
     }
 }

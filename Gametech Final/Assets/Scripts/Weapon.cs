@@ -68,4 +68,26 @@ public class Weapon : MonoBehaviour {
 		}
 		Debug.Log("weapon swapped to: " + weaponName);
 	}
+
+    public void Attack(int skillnum)
+    {
+        Debug.Log("attacking");
+        WeaponSkill skill = skills[skillnum];
+        Collider[] colliders = Physics.OverlapSphere(transform.position, skill.getCurrent().getRange() * 5);
+        foreach (Collider c in colliders)
+        {
+            Debug.Log(c.gameObject.name);
+            if (c.gameObject.tag == "Enemy")
+            {
+                Vector3 enemypos = c.transform.position - transform.position;
+                if (Vector3.Dot(transform.forward, enemypos) > 0)
+                {
+                    //c.gameObject.SetActive(false);
+                    Enemy e = c.GetComponent<Enemy>();
+                    Debug.Log("power is " + skill.getCurrent().getPower());
+                    e.isAttacked(skill.getCurrent().getPower());
+                }
+            }
+        }
+    }
 }

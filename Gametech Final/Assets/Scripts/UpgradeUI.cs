@@ -10,10 +10,13 @@ public class UpgradeUI : MonoBehaviour
     public GameObject weaponName, description;
     private List<GameObject> skills;
     private List<WeaponSkill> weaponSkills;
+    public MidgameNPC midgameNPC;
+    Player player;
     void Start()
     {
         weaponName = GameObject.Find("WeaponName");
         description = GameObject.Find("WeaponDescription");
+        player = GameObject.Find("Player").GetComponent<Player>();
         skills = new List<GameObject>();
         GameObject skill1 = GameObject.Find("Skill1");
         GameObject skill2 = GameObject.Find("Skill2");
@@ -26,10 +29,30 @@ public class UpgradeUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // prob remove this after debug done
         if (Input.GetKeyUp(KeyCode.T)) {
             Refresh();
             canvas.enabled = !canvas.enabled;
+            if (canvas.enabled) {
+                player.setMovable(false);
+            } else {
+                player.setMovable(true);
+            }
         }
+    }
+
+    public void hideUpgrades() {
+        canvas.enabled = false;
+        player.setMovable(true);
+        midgameNPC.changeSpeechFile("upgradeFinish");
+        midgameNPC.ContinueAdvancing();
+        midgameNPC.branchConversation();
+    }
+
+    public void showUpgrades() {
+        Refresh();
+        canvas.enabled = true;
+        player.setMovable(false);
     }
 
     void Refresh() {

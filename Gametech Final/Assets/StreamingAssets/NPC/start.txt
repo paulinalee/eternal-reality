@@ -7,4 +7,5 @@ Nah, I've got this.
 ||BRANCHFILES
 tutorial
 goodbye
+||METADATA
 ||ENDCHOICE

@@ -13,8 +13,11 @@ public class Player : MonoBehaviour {
     private Dictionary<string, WeaponInfo> weapons;
     private bool acceptInput;
     public int health = 100;
+    private int maxHealth;
+    private int points = 300;
 	// Use this for initialization
 	void Start () {
+        maxHealth = health;
 		characterController = GetComponent<CharacterController>();
         acceptInput = true;
         // force the resolution
@@ -23,7 +26,7 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-      //  Debug.Log("position X: " + transform.position.x + " || position y: " + transform.position.y + " || position z: " + transform.position.z);
+//       Debug.Log("position X: " + transform.position.x + " || position y: " + transform.position.y + " || position z: " + transform.position.z);
         if (acceptInput) {
             checkAttack();
             if (characterController.isGrounded){
@@ -52,10 +55,13 @@ public class Player : MonoBehaviour {
     void checkAttack() {
         if (Input.GetKeyUp(KeyCode.Q)) {
             Debug.Log("Skill 1 used!");
+            weapon.Attack(1);
         } else if (Input.GetKeyUp(KeyCode.E)) {
             Debug.Log("Skill 2 used!");
+            weapon.Attack(2);
         } else if (Input.GetKeyUp(KeyCode.R)) {
             Debug.Log("Skill 3 used!");
+            weapon.Attack(3);
         }
     }
 
@@ -67,10 +73,29 @@ public class Player : MonoBehaviour {
         health += val;
         Debug.Log(health);
     }
-
     
     public void changeWeapon(string weaponName) {
         weapons = GameObject.Find("WeaponSelect").GetComponent<WeaponSelect>().GetWeapons();
         weapon.updateWeapon(weapons[weaponName]);
+    }
+
+    public void addPoints(int newPoints) {
+        points += newPoints;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void usePoints(int pointsUsed) {
+        points -= pointsUsed;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 }

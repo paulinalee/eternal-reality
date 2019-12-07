@@ -20,12 +20,16 @@ public class WeaponButton : MonoBehaviour
     public void changeWeapon() {
         Text buttonText = this.transform.GetChild(0).GetComponent<Text>();
         player.GetComponent<Player>().changeWeapon(buttonText.text);
-        WeaponNPC npc = GameObject.Find("NPC").GetComponent<WeaponNPC>();
+        GameObject npcObject = GameObject.Find("NPC");
         Canvas WeaponDisplay = GameObject.Find("WeaponSelectView").GetComponent<Canvas>();
         WeaponDisplay.enabled = false;
-        npc.toggleWeaponSelected(true);
-        npc.toggleSelectionMode(false);
+        if (npcObject.GetComponent<WeaponNPC>()) {
+            npcObject.GetComponent<WeaponNPC>().toggleWeaponSelected(true);
+        }
+
+        NPC npc = npcObject.GetComponent<NPC>();
         npc.changeSpeechFile("ready");
+        npc.ContinueAdvancing();
         npc.branchConversation();
     }
 

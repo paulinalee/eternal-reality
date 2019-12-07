@@ -10,7 +10,7 @@ public class SkillTool : EditorWindow
     [MenuItem("Editor/Skill Tree Creator")]
     public static void ShowWindow()
     {
-        GetWindow<SkillTool>(true, "Skill Tree Creator", true);
+        GetWindowWithRect<SkillTool>(new Rect(0, 0, 500, 500), true, "Skill Tree Creator", true);
     }
 
     private void OnGUI()

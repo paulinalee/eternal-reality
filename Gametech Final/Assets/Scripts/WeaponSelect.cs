@@ -26,7 +26,6 @@ public class WeaponSelect : MonoBehaviour {
 			string contents = File.ReadAllText(f.FullName);
 			WeaponInfo weapon = JsonUtility.FromJson<WeaponInfo>(contents);
 			weaponsList.Add(weapon);
-			Debug.Log(weapon.name);
 		}
 	}
 	
@@ -55,7 +54,6 @@ public class WeaponSelect : MonoBehaviour {
 		}
 		
 		weaponUpgrades[weaponName][skillNumber] = level;
-		Debug.Log("upgrade saved for " + weaponName + " skillNumber: " + skillNumber.ToString() + " level: " + level.ToString());
 	}
 
 	public bool alreadyUpgraded(string name) {

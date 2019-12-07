@@ -20,11 +20,11 @@ public class ArenaStart : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Player>() != null) {
+        if (other.tag == "Player") {
             Debug.Log("Player entered arena!");
             boxCollider.enabled = false;
-            WeaponNPC npc = GameObject.Find("NPC").GetComponent<WeaponNPC>();
-            npc.startGame();
+            WeaponNPC oldNPC = GameObject.Find("NPC").GetComponent<WeaponNPC>();
+            oldNPC.delete();
             BoxCollider arenaCollider = GameObject.Find("ArenaWall").GetComponent<BoxCollider>();
             arenaCollider.enabled = true;
         }

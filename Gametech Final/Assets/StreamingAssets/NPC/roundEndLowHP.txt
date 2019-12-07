@@ -1,0 +1,17 @@
+Yikes!
+It looks like you're not doing so great.
+You should probably heal up instead of doing anything else...
+What would you like to do?
+||OPTIONS
+I need to heal!
+I live a life of risk. (Swap weapons)
+I want to be stronger! (Upgrade weapon)
+||BRANCHFILES
+roundEndHeal
+roundEndSelect
+roundEndUpgrade
+||METADATA
+heal
+reselect
+upgrade
+||ENDCHOICE

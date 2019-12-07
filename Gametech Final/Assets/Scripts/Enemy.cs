@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour {
     public float range = 2.0f;
     public float attackrate = 4.0f;
     public int attackpower = 2;
+    public float health = 20.0f;
     private float attackcooldown = 0.0f;
     Rigidbody rb;
     bool grounded;
@@ -68,5 +69,20 @@ public class Enemy : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         grounded = true;
+    }
+
+    public void isAttacked(float damage) {
+        Debug.Log("enemy attacked!");
+        float kbforce = Random.Range(5.0f, 10.0f);
+        GetComponent<Rigidbody>().AddForce(new Vector3(-transform.forward.x * kbforce, 5, -transform.forward.z * kbforce), ForceMode.Impulse);
+        health = health - damage;
+        Debug.Log("health = " + health);
+        if (health <= 0.0f) {
+            die();
+        }
+    }
+
+    private void die() {
+        Destroy(gameObject);
     }
 }
