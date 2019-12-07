@@ -18,33 +18,25 @@ public class WeaponNPC : NPC
     // Update is called once per frame
     public override void Update()
     {
-        if (interactable) {
-            if (Input.GetKeyUp(KeyCode.F) && !inConversation) {
-                beginConversation();
-            } else if (inConversation) {
-                if (Input.GetKeyUp(KeyCode.F)) {
-                    advanceConversation();
-                } else if (Input.GetKeyUp(KeyCode.Escape)) {
-                    endConversation();
-                }
-            }
-        }
+        base.Update();
     }
 
     public override void advanceConversation() {
-        string nextLine = fileReader.ReadLine();
-        if (string.IsNullOrEmpty(nextLine)) {
-            if (!stopAdvancing && !weaponSelected) {
-                // have yet to select a weapon
-                uiManager.displayWeapons();
-            } else if (weaponSelected) {
-                endConversation();
-            }
-        } else {
-            if (nextLine.StartsWith("||OPTIONS")) {
-                processBranches();
+        if (!stopAdvancing) {
+            string nextLine = fileReader.ReadLine();
+            if (string.IsNullOrEmpty(nextLine)) {
+                if (!weaponSelected) {
+                    // have yet to select a weapon
+                    uiManager.displayWeapons();
+                } else if (weaponSelected) {
+                    endConversation();
+                }
             } else {
-                uiManager.setSpeech(nextLine);
+                if (nextLine.StartsWith("||OPTIONS")) {
+                    processBranches();
+                } else {
+                    uiManager.setSpeech(nextLine);
+                }
             }
         }
     }

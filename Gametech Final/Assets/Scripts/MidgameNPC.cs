@@ -6,7 +6,7 @@ using System.IO;
 public class MidgameNPC : NPC
 {
     // Start is called before the first frame update
-    bool showWeapons, showHeal, showUpgrades;
+    bool showWeapons, showHeal, showUpgrades, startNextRound;
     string originalFileName;
     public override void Start()
     {
@@ -24,33 +24,42 @@ public class MidgameNPC : NPC
         changeSpeechFile(originalFileName);
         base.beginConversation();
     }
-    
 
     public override void advanceConversation() {
-        string nextLine = fileReader.ReadLine();
-        if (string.IsNullOrEmpty(nextLine)) {
-            if (showWeapons) {
-                stopAdvancing = true;
-                uiManager.displayWeapons();
-                showWeapons = false;
-            } else if (showHeal) {
-                stopAdvancing = true;
-                uiManager.displayHeals();
-                showHeal = false;
-            } else if (showUpgrades) {
-                stopAdvancing = true;
-                uiManager.displayUpgrades();
-                showUpgrades = false;
+        if (!stopAdvancing) {
+            string nextLine = fileReader.ReadLine();
+            if (string.IsNullOrEmpty(nextLine)) {
+                if (showWeapons) {
+                    stopAdvancing = true;
+                    uiManager.displayWeapons();
+                    showWeapons = false;
+                } else if (showHeal) {
+                    stopAdvancing = true;
+                    uiManager.displayHeals();
+                    showHeal = false;
+                } else if (showUpgrades) {
+                    stopAdvancing = true;
+                    uiManager.displayUpgrades();
+                    showUpgrades = false;
+                } else {
+                    if (startNextRound) {
+                        stopAdvancing = false;
+                        uiManager.showReadyMsg();
+                        SpawnController spawnController = GameObject.Find("SpawnZone").GetComponent<SpawnController>();
+                        spawnController.prepareNextRound();
+                    }
+                    endConversation(); // this lets players do multiple things between rounds by talking to npc again
+
+                }
             } else {
-                endConversation();
-            }
-        } else {
-            if (nextLine.StartsWith("||OPTIONS")) {
-                processBranches();
-            } else {
-                uiManager.setSpeech(nextLine);
+                if (nextLine.StartsWith("||OPTIONS")) {
+                    processBranches();
+                } else {
+                    uiManager.setSpeech(nextLine);
+                }
             }
         }
+     
     }
 
     public override void resetVariables() {
@@ -68,5 +77,9 @@ public class MidgameNPC : NPC
 
     public void toggleUpgradeScreenOn() {
         showUpgrades = true;
+    }
+
+    public void toggleStartRound() {
+        startNextRound = true;
     }
 }

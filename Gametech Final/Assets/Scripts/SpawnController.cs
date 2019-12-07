@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class SpawnController : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -10,15 +10,16 @@ public class SpawnController : MonoBehaviour
     public int enemiesperwave = 10;
     int currentenemies = 0;
     private bool roundEnded, pointSpendingDone;
-    public float timeBetweenRounds = 5f;
-    private float preRoundTimer, teleportTimer; // teleport = timer before player gets teleported to npc, preround = timer before new round starts
+    public double timeBetweenRounds = 5f;
+    private double preRoundTimer, teleportTimer; // teleport = timer before player gets teleported to npc, preround = timer before new round starts
     public MidgameNPC npc;
     private UI uiManager;
     void Start()
     {
         uiManager = GameObject.Find("UI").GetComponent<UI>();
+        teleportTimer = 5f;
         preRoundTimer = timeBetweenRounds;
-        enemiesperwave = 2; // remove this when youre done debugging!!!!!
+        enemiesperwave = 1; // remove this when youre done debugging!!!!!
         for (int i = 0; i < transform.childCount; ++i) {
             transform.GetChild(i).gameObject.SetActive(false);
         }
@@ -27,8 +28,16 @@ public class SpawnController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (roundEnded) {
+            teleportTimer -= Time.deltaTime;
+            uiManager.updateTimer(Convert.ToInt32(Math.Ceiling(teleportTimer)));
+            if (teleportTimer <= 0.0f) {
+                resetPlayer();
+            }
+        }
         if (pointSpendingDone) {
             preRoundTimer -= Time.deltaTime;
+            uiManager.updateTimer(Convert.ToInt32(Math.Ceiling(preRoundTimer)));
             if (preRoundTimer <= 0.0f) {
                 startNextRound();
             }
@@ -53,26 +62,36 @@ public class SpawnController : MonoBehaviour
         }
         uiManager.toggleRoundStatus(true);
         uiManager.showRoundEndMsg();
+        teleportTimer = 5f;
     }
 
     void resetPlayer() {
         // change player location to be near NPC
+        roundEnded = false;
         showNPC();
+        GameObject.Find("Player").transform.SetPositionAndRotation(new Vector3(-1.15f, .8f, -55.8f), new Quaternion()); // fix this to not be literally on the npc later
+        uiManager.toggleRoundStatus(false);
     }
 
     void startNextRound() {
         currentround += 1;
+        pointSpendingDone = false;
         currentwave = 1;
         enemiesperwave += 5;
         roundEnded = false;
         // reactivate spawn points
         for (int i = 0; i < transform.childCount; ++i) {
-            transform.GetChild(i).gameObject.SetActive(false);
+            transform.GetChild(i).gameObject.SetActive(true);
         }
+        uiManager.toggleRoundStatus(false);
     }
 
-    public void resetpreRoundTimer() {
+    public void prepareNextRound() {
+        pointSpendingDone = true;
         preRoundTimer = timeBetweenRounds;
+        npc.gameObject.SetActive(false);
+        uiManager.toggleRoundStatus(true);
+        uiManager.showReadyMsg();
     }
 
     private void OnTriggerEnter(Collider other)

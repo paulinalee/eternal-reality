@@ -71,6 +71,7 @@ public class Weapon : MonoBehaviour {
 
     public void Attack(int skillnum)
     {
+		skillnum = skillnum - 1; // for indexing
         Debug.Log("attacking");
         WeaponSkill skill = skills[skillnum];
         Collider[] colliders = Physics.OverlapSphere(transform.position, skill.getCurrent().getRange() * 5);

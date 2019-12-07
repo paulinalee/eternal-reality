@@ -11,7 +11,7 @@ public class UI : MonoBehaviour
 
     private UpgradeUI upgradeDisplay;
     public GameObject choiceButtonPrefab, weaponButtonPrefab, choiceContainer, weaponContainer;
-    private Text speechText;
+    private Text speechText, timerText;
     void Start()
     {
         display = GameObject.Find("NPCSpeech").GetComponent<Canvas>();
@@ -29,6 +29,7 @@ public class UI : MonoBehaviour
         upgradeDisplay = GameObject.Find("UpgradeScreen").GetComponent<UpgradeUI>();
 
         roundStatusDisplay = GameObject.Find("RoundStatusView").GetComponent<Canvas>();
+        timerText = GameObject.Find("RoundStatusView/Status/Countdown").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -106,6 +107,9 @@ public class UI : MonoBehaviour
                     case "upgrade":
                         choiceButton.midgameShowUpgrade();
                         break;
+                    case "skip":
+                        choiceButton.midgameStartNewRound();
+                        break;
                 }
             }
         }
@@ -129,11 +133,13 @@ public class UI : MonoBehaviour
     public void showRoundEndMsg() {
         roundStatusDisplay.transform.Find("Status/ClearText").GetComponent<Canvas>().enabled = true;
         roundStatusDisplay.transform.Find("Status/ReadyText").GetComponent<Canvas>().enabled = false;
+        roundStatusDisplay.transform.Find("Status/Label").GetComponent<Text>().text = "Teleporting in...";
     }
 
     public void showReadyMsg() {
         roundStatusDisplay.transform.Find("Status/ReadyText").GetComponent<Canvas>().enabled = true;
         roundStatusDisplay.transform.Find("Status/ClearText").GetComponent<Canvas>().enabled = false;
+        roundStatusDisplay.transform.Find("Status/Label").GetComponent<Text>().text = "Next round in...";
     }
 
     public void toggleBranchingDialogue() {
@@ -145,5 +151,9 @@ public class UI : MonoBehaviour
 
     public void setSpeech(string text) {
         speechText.text = text;
+    }
+    
+    public void updateTimer(int time) {
+        timerText.text = time.ToString();
     }
 }

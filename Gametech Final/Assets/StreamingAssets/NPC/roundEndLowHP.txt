@@ -6,12 +6,15 @@ What would you like to do?
 I need to heal!
 I live a life of risk. (Swap weapons)
 I want to be stronger! (Upgrade weapon)
+Let's just get going. (Next round)
 ||BRANCHFILES
 roundEndHeal
 roundEndSelect
 roundEndUpgrade
+roundNextStart
 ||METADATA
 heal
 reselect
 upgrade
+skip
 ||ENDCHOICE

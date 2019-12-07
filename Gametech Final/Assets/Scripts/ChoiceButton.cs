@@ -6,7 +6,7 @@ public class ChoiceButton : MonoBehaviour
 {
     // Start is called before the first frame update
     private string choiceFile;
-    private bool toWeaponScreen, toHealScreen, toUpgradeScreen;
+    private bool toWeaponScreen, toHealScreen, toUpgradeScreen, skipToNextRound;
     void Start()
     {
     }
@@ -41,6 +41,10 @@ public class ChoiceButton : MonoBehaviour
         toUpgradeScreen = true;
     }
 
+    public void midgameStartNewRound() {
+        skipToNextRound = true;
+    }
+    
     void evaluateMetadata() {
         MidgameNPC npc = GameObject.Find("NPC").GetComponent<MidgameNPC>();
         if (toWeaponScreen) {
@@ -53,6 +57,10 @@ public class ChoiceButton : MonoBehaviour
 
         if (toUpgradeScreen) {
             npc.toggleUpgradeScreenOn();
+        }
+
+        if (skipToNextRound) {
+            npc.toggleStartRound();
         }
     }
 }

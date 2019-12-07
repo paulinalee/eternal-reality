@@ -7,7 +7,7 @@ using System;
 public class NPC : MonoBehaviour
 {
     // Start is called before the first frame update
-    protected bool interactable, inConversation, stopAdvancing;
+    protected bool interactable, inRange, inConversation, stopAdvancing;
     protected Player player;
 
     protected string speechFile;
@@ -35,20 +35,24 @@ public class NPC : MonoBehaviour
     }
 
     public virtual void advanceConversation() {
-        string nextLine = fileReader.ReadLine();
-        if (string.IsNullOrEmpty(nextLine)) {
-            endConversation();
-        } else {
-            if (nextLine.StartsWith("||OPTIONS")) {
-                processBranches();
+        if (!stopAdvancing) {
+            string nextLine = fileReader.ReadLine();
+            if (string.IsNullOrEmpty(nextLine)) {
+                endConversation();
             } else {
-                uiManager.setSpeech(nextLine);
+                if (nextLine.StartsWith("||OPTIONS")) {
+                    processBranches();
+                } else {
+                    uiManager.setSpeech(nextLine);
+                }
             }
         }
+        
     }
 
     public virtual void beginConversation() {
         player.setMovable(false);
+        stopAdvancing = false;
         fileReader = new StreamReader(speechFile);
         uiManager.resetDisplays();
         inConversation = true;
@@ -112,14 +116,16 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
-        if (interactable && !stopAdvancing) {
-            if (Input.GetKeyUp(KeyCode.F) && !inConversation) {
-                beginConversation();
-            } else if (inConversation) {
-                if (Input.GetKeyUp(KeyCode.F)) {
-                    advanceConversation();
-                } else if (Input.GetKeyUp(KeyCode.Escape)) {
-                    endConversation();
+        if (Input.GetKeyUp(KeyCode.Escape)) {
+            endConversation();
+        } else {
+            if (interactable) {
+                if (Input.GetKeyUp(KeyCode.F) && !inConversation) {
+                    beginConversation();
+                } else if (inConversation) {
+                    if (Input.GetKeyUp(KeyCode.F)) {
+                        advanceConversation();
+                    }
                 }
             }
         }

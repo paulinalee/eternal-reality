@@ -353,6 +353,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC
       objectReference: {fileID: 0}
+    - target: {fileID: 100206, guid: e9c5981fbaf261f4f976333c279b3ffc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 100208, guid: e9c5981fbaf261f4f976333c279b3ffc, type: 3}
       propertyPath: m_IsActive
       value: 0
