@@ -8,10 +8,13 @@ public class UI : MonoBehaviour
 {
     // Start is called before the first frame update
     private Canvas display, choiceDisplay, speechDisplay, weaponDisplay, healDisplay, roundStatusDisplay;
+    private Slider playerHP;
+    public GameObject skillBar;
 
     private UpgradeUI upgradeDisplay;
     public GameObject choiceButtonPrefab, weaponButtonPrefab, choiceContainer, weaponContainer;
-    private Text speechText, timerText;
+    private Text speechText, timerText, healthText, healPointsText;
+    private Player player;
     void Start()
     {
         display = GameObject.Find("NPCSpeech").GetComponent<Canvas>();
@@ -30,6 +33,12 @@ public class UI : MonoBehaviour
 
         roundStatusDisplay = GameObject.Find("RoundStatusView").GetComponent<Canvas>();
         timerText = GameObject.Find("RoundStatusView/Status/Countdown").GetComponent<Text>();
+        playerHP = GameObject.Find("PlayerInfo/HP/Slider").GetComponent<Slider>();
+        healthText = GameObject.Find("PlayerInfo/HP/Text").GetComponent<Text>();
+        skillBar = GameObject.Find("PlayerInfo/SkillBar/Panel");
+        
+        healPointsText = GameObject.Find("HealView/PointsRemaining").GetComponent<Text>();
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -95,7 +104,6 @@ public class UI : MonoBehaviour
             choiceButton.setChoiceFile(entry.Value);
             choiceText.text = entry.Key;
             if (metadata.ContainsKey(choiceText.text)) {
-                Debug.Log("metadata: " + metadata[choiceText.text]);
                 // have metadata for this, so one of these choice buttons needs to toggle a screen
                 switch(metadata[choiceText.text]) {
                     case "reselect":
@@ -119,6 +127,7 @@ public class UI : MonoBehaviour
         healDisplay.enabled = true;
         speechDisplay.enabled = false;
         weaponDisplay.enabled = false;
+        healPointsText.text = "Points: " + player.getPoints().ToString();
     }
 
     public void displayUpgrades() {
@@ -155,5 +164,20 @@ public class UI : MonoBehaviour
     
     public void updateTimer(int time) {
         timerText.text = time.ToString();
+    }
+
+    public void updatePlayerHP(int newVal) {
+        playerHP.value = newVal;
+        healthText.text = newVal.ToString() + " / 100";
+    }
+
+    public void updateSkillBar(int skillNumber, bool isDisabled, float cooldownTime = 0) {
+        GameObject skill = skillBar.transform.GetChild(skillNumber).gameObject;
+        GameObject cooldown = skill.transform.Find("Cooldown").gameObject;
+        cooldown.SetActive(isDisabled);
+        if (isDisabled) {
+            cooldown.GetComponent<SkillCooldown>().setTimer(cooldownTime);
+        }
+        Debug.Log("skill " + skillNumber + " on cooldown");
     }
 }

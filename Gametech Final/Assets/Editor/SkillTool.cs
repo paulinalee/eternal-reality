@@ -22,7 +22,7 @@ public class SkillTool : EditorWindow
         }
         Rect button2pos = new Rect(position.width / 2, position.height / 2, position.width / 4, 25);
         if (GUI.Button(button2pos, "Load Weapon")) {
-            string path = EditorUtility.OpenFilePanel("Load Saved Weapon Data", "Assets/Weapons", "txt");
+            string path = EditorUtility.OpenFilePanel("Load Saved Weapon Data", Application.streamingAssetsPath + "/Weapons", "txt");
             if (path.Length != 0)
             {
                 var fileText = File.ReadAllText(path);

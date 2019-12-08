@@ -1,0 +1,1 @@
+{"name":"Plsdontbreak","description":"pls","imgpath":"","skills":[{"name":"a","description":"aa","imgpath":"","levels":[{"power":1.0,"range":5.0,"speed":2.0}]},{"name":"b","description":"bb","imgpath":"","levels":[{"power":15.0,"range":1.0,"speed":1.0}]},{"name":"c","description":"cc","imgpath":"","levels":[{"power":15.0,"range":1.0,"speed":1.0}]}]}

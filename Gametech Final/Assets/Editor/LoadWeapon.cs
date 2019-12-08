@@ -64,7 +64,7 @@ public class LoadWeapon : EditorWindow
         }
         Rect descriptionPos = new Rect(weaponBoxPos.x, weaponBoxPos.yMax, weaponBoxPos.width, 15);
         showDescrip = EditorGUI.Foldout(descriptionPos, showDescrip, "EDIT WEAPON");
-        Rect foldoutPos = new Rect(descriptionPos.xMax, weaponBoxPos.yMax, descriptionPos.width, weaponBoxPos.height);
+        Rect foldoutPos = new Rect(descriptionPos.xMax, weaponBoxPos.yMin, descriptionPos.width, weaponBoxPos.height);
         if (showDescrip)
         {
             GUILayout.BeginArea(foldoutPos);

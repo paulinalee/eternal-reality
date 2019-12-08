@@ -12,16 +12,17 @@ public class HealButton : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         button = GetComponent<Button>();
-        if (player.getPoints() < pointsRequired) {
-            button.interactable = false;
-            // todo later: make text less opaque when button is disabled
-        }
+   
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (player.getPoints() < pointsRequired) {
+            button.interactable = false;
+            // todo later: make text less opaque when button is disabled
+            // and prob figure out how to do this so you dont literally have to do it every frame,,,,,,,,
+        }
     }
 
     public void onHealClick() {

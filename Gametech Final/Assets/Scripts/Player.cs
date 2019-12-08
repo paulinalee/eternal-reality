@@ -15,9 +15,16 @@ public class Player : MonoBehaviour {
     public int health = 100;
     private int maxHealth;
     private int points = 300;
+    private UI uiMananger;
+    private float s1CD, s2CD, s3CD;
+    private bool s1Used, s2Used, s3Used;
 	// Use this for initialization
 	void Start () {
+        uiMananger = GameObject.Find("UI").GetComponent<UI>();
         maxHealth = health;
+        s1CD = 0;
+        s2CD = 0;
+        s3CD = 0;
 		characterController = GetComponent<CharacterController>();
         acceptInput = true;
         // force the resolution
@@ -27,6 +34,27 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 //       Debug.Log("position X: " + transform.position.x + " || position y: " + transform.position.y + " || position z: " + transform.position.z);
+       if (s1Used) {
+                s1CD -= Time.deltaTime;
+                if (s1CD <= 0) {
+                    s1Used = false;
+                    uiMananger.updateSkillBar(0, false);
+                }
+            }
+        if (s2Used) {
+            s2CD -= Time.deltaTime;
+            if (s2CD <= 0) {
+                s2Used = false;
+                uiMananger.updateSkillBar(1, false);
+            }
+        }
+        if (s3Used) {
+            s3CD -= Time.deltaTime;
+            if (s3CD <= 0) {
+                s3Used = false;
+                uiMananger.updateSkillBar(2, false);
+            }
+        }
         if (acceptInput) {
             checkAttack();
             if (characterController.isGrounded){
@@ -53,15 +81,21 @@ public class Player : MonoBehaviour {
 	}
 
     void checkAttack() {
-        if (Input.GetKeyUp(KeyCode.Q)) {
-            Debug.Log("Skill 1 used!");
+        if (Input.GetKeyUp(KeyCode.Q) && !s1Used) {
             weapon.Attack(1);
-        } else if (Input.GetKeyUp(KeyCode.E)) {
-            Debug.Log("Skill 2 used!");
+            s1CD = weapon.getSkills()[0].getCurrent().getSpeed();
+            s1Used = true;
+            uiMananger.updateSkillBar(0, true, s1CD);
+        } else if (Input.GetKeyUp(KeyCode.E) && !s2Used) {
             weapon.Attack(2);
-        } else if (Input.GetKeyUp(KeyCode.R)) {
-            Debug.Log("Skill 3 used!");
+            s2CD = weapon.getSkills()[1].getCurrent().getSpeed();
+            s2Used = true;
+            uiMananger.updateSkillBar(1, true, s2CD);
+        } else if (Input.GetKeyUp(KeyCode.R) && !s3Used) {
             weapon.Attack(3);
+            s3CD = weapon.getSkills()[2].getCurrent().getSpeed();
+            s3Used = true;
+            uiMananger.updateSkillBar(2, true, s3CD);
         }
     }
 
@@ -72,6 +106,7 @@ public class Player : MonoBehaviour {
     public void healthMod(int val) {
         health += val;
         Debug.Log(health);
+        uiMananger.updatePlayerHP(health);
     }
     
     public void changeWeapon(string weaponName) {

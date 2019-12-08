@@ -12,7 +12,7 @@ public class Skill : GUIContent {
     string path = "";
     List<Level> levels;
     int currentlevs, addedlevs;
-
+    Vector2 scrollPos;
     public Skill(float xpos, float ypos, float windoww, float windowh) {
         x = xpos;
         y = ypos;
@@ -71,9 +71,11 @@ public class Skill : GUIContent {
         GUILayout.EndHorizontal();
         GUILayout.Label("Skill Description:");
         description = EditorGUILayout.TextArea(description, GUILayout.Height(50));
+        scrollPos =  EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(w / 3), GUILayout.Height(h / 4));
         foreach (Level l in levels) {
             l.Draw();
         }
+        EditorGUILayout.EndScrollView();
         GUILayout.BeginHorizontal();
         GUILayout.Space(levelBox.width / 2 - 10);
         if (GUILayout.Button("+", GUILayout.Width(20)))

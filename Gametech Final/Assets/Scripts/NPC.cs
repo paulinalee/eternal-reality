@@ -14,14 +14,13 @@ public class NPC : MonoBehaviour
 
     protected StreamReader fileReader;
 
-    protected UI uiManager;
+    public UI uiManager;
     public string fileName;
     
     public virtual void Start()
     {  
         interactable = false;
         inConversation = false;
-        uiManager = GameObject.Find("UI").GetComponent<UI>();
         player = GameObject.Find("Player").GetComponent<Player>();
         if (string.IsNullOrEmpty(speechFile)) {
             speechFile = Application.streamingAssetsPath + "/NPC/" + fileName + ".txt";
@@ -30,7 +29,6 @@ public class NPC : MonoBehaviour
 
     public void changeSpeechFile(string newFile) {
         speechFile = Application.streamingAssetsPath + "/NPC/" + newFile + ".txt";
-        Debug.Log("new file path: " + speechFile);
         fileReader = new StreamReader(speechFile);
     }
 
@@ -93,7 +91,6 @@ public class NPC : MonoBehaviour
         }
 
         // reading from metadata to end of file and mapping
-        
         // metadata is used only when buttons are supposed to lead to more than just dialogue (i.e. transition the ui screens)
         nextLine = fileReader.ReadLine(); // read the "||METADATA" line
         List<string> metadata = new List<string>();

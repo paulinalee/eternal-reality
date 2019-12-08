@@ -466,7 +466,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb6f7f1949615b44ba2e71e981903bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 700515398}
   fileName: start
+--- !u!114 &700515398 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 450987695986401117, guid: 7e73af032176e604fa2cc5a599e8ee25,
+    type: 3}
+  m_PrefabInstance: {fileID: 1459683988}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df3203db68ab9694e8f8e80524a92547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &795909959
 GameObject:
   m_ObjectHideFlags: 0
@@ -5922,6 +5935,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -0.0008388029
       objectReference: {fileID: 0}
+    - target: {fileID: 4653211358873897060, guid: 7e73af032176e604fa2cc5a599e8ee25,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7682221408400797589, guid: 7e73af032176e604fa2cc5a599e8ee25,
         type: 3}
       propertyPath: m_IsActive
@@ -8057,6 +8075,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a713936e6fcf1294fbbab3d01ff5459b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 700515398}
   fileName: roundEndLowHP
 --- !u!65 &1749920461
 BoxCollider:
