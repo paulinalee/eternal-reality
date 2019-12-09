@@ -82,15 +82,14 @@ public class LoadWeapon : EditorWindow
         {
             if (Event.current.type == EventType.MouseDown)
             {
-                path = EditorUtility.OpenFilePanel("Load Weapon Image", "", "png");
+                path = EditorUtility.OpenFilePanel("Load Weapon Image", Application.dataPath + "/Resources", "png");
                 if (path.Length != 0)
                 {
-                    if (path.StartsWith(Application.streamingAssetsPath))
+                    if (path.StartsWith(Application.dataPath))
                     {
-                        path = "Assets" + path.Substring(Application.streamingAssetsPath.Length);
+                        path = "Assets" + path.Substring(Application.dataPath.Length);
                     }
-                    Debug.Log(path);
-                    weaponTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                    weaponTexture = AssetDatabase.LoadAssetAtPath<Sprite>(path).texture;
                 }
             }
         }

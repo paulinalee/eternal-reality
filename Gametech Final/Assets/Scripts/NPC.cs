@@ -19,7 +19,6 @@ public class NPC : MonoBehaviour
     
     public virtual void Start()
     {  
-        interactable = false;
         inConversation = false;
         player = GameObject.Find("Player").GetComponent<Player>();
         if (string.IsNullOrEmpty(speechFile)) {
@@ -27,7 +26,8 @@ public class NPC : MonoBehaviour
         }
     }
 
-    public void changeSpeechFile(string newFile) {
+    public virtual void changeSpeechFile(string newFile) {
+        fileName = newFile;
         speechFile = Application.streamingAssetsPath + "/NPC/" + newFile + ".txt";
         fileReader = new StreamReader(speechFile);
     }
@@ -38,6 +38,7 @@ public class NPC : MonoBehaviour
             if (string.IsNullOrEmpty(nextLine)) {
                 endConversation();
             } else {
+                uiManager.playDialogueSound();
                 if (nextLine.StartsWith("||OPTIONS")) {
                     processBranches();
                 } else {
@@ -113,16 +114,15 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape)) {
-            endConversation();
-        } else {
-            if (interactable) {
-                if (Input.GetKeyUp(KeyCode.F) && !inConversation) {
-                    beginConversation();
-                } else if (inConversation) {
-                    if (Input.GetKeyUp(KeyCode.F)) {
-                        advanceConversation();
-                    }
+        if (interactable) {
+            if (Input.GetKeyUp(KeyCode.Escape)) {
+                endConversation();
+            }
+            if (Input.GetKeyUp(KeyCode.F) && !inConversation) {
+                beginConversation();
+            } else if (inConversation) {
+                if (Input.GetKeyUp(KeyCode.F)) {
+                    advanceConversation();
                 }
             }
         }
@@ -130,14 +130,17 @@ public class NPC : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {  
-        if (other.GetComponent<Player>() != null) {
+        if (other.tag == "Player") {
+            Debug.Log("player in npc range");
             interactable = true;
+            Debug.Log(interactable);
         }
     }
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Player>() != null) {
+        if (other.tag == "Player") {
+            Debug.Log("player nolonger in npc range");
             interactable = false;
         } 
     }

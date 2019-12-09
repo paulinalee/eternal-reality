@@ -10,7 +10,7 @@ public class Skill : GUIContent {
     float w, h;
     string name, description = "";
     string path = "";
-    List<Level> levels;
+    public List<Level> levels;
     int currentlevs, addedlevs;
     Vector2 scrollPos;
     public Skill(float xpos, float ypos, float windoww, float windowh) {
@@ -51,14 +51,13 @@ public class Skill : GUIContent {
         {
             if (Event.current.type == EventType.MouseDown)
             {
-                path = EditorUtility.OpenFilePanel("Load Skill Image", "", "png");
+                path = EditorUtility.OpenFilePanel("Load Skill Image", Application.dataPath + "/Resources", "png");
                 if (path.Length != 0)
                 {
-                    if (path.StartsWith(Application.streamingAssetsPath))
+                    if (path.StartsWith(Application.dataPath))
                     {
-                        path = "Assets" + path.Substring(Application.streamingAssetsPath.Length);
+                        path = "Assets" + path.Substring(Application.dataPath.Length);
                     }
-                    Debug.Log(path);
                     skillTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
                 }
             }
@@ -90,7 +89,6 @@ public class Skill : GUIContent {
     }
 
     private void addLevel() {
-        Debug.Log("adding!");
         levels.Add(new Level());
         currentlevs = addedlevs;
         Draw();

@@ -27,6 +27,7 @@ public class ArenaStart : MonoBehaviour
             oldNPC.delete();
             BoxCollider arenaCollider = GameObject.Find("ArenaWall").GetComponent<BoxCollider>();
             arenaCollider.enabled = true;
+            GameObject.Find("UI").GetComponent<UI>().showPoints();
         }
     }
 }

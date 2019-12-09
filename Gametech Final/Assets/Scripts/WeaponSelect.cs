@@ -17,6 +17,7 @@ public class WeaponSelect : MonoBehaviour {
 		weaponUpgrades = new Dictionary<string, int[]>();
 		ReadFromFolder();
 		mapWeapons();
+		Debug.Log("READING");
 	}
 	
 	void ReadFromFolder() {
@@ -26,6 +27,7 @@ public class WeaponSelect : MonoBehaviour {
 			string contents = File.ReadAllText(f.FullName);
 			WeaponInfo weapon = JsonUtility.FromJson<WeaponInfo>(contents);
 			weaponsList.Add(weapon);
+			Debug.Log(weapon.name);
 		}
 	}
 	

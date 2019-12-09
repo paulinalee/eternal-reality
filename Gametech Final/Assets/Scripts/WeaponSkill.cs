@@ -69,7 +69,7 @@ public class WeaponSkill {
 	}
 
 	public int getLevel() {
-		return currentIndex;
+		return currentIndex + 1;
 	}
 	public void setLevel(int level) {
 		currentIndex = level;

@@ -7,8 +7,10 @@ public class ChoiceButton : MonoBehaviour
     // Start is called before the first frame update
     private string choiceFile;
     private bool toWeaponScreen, toHealScreen, toUpgradeScreen, skipToNextRound;
+    private AudioSource sfx;
     void Start()
     {
+        sfx = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -23,6 +25,7 @@ public class ChoiceButton : MonoBehaviour
         evaluateMetadata();
         npc.ContinueAdvancing();
         npc.branchConversation();
+        sfx.Play();
     }
 
     public void setChoiceFile(string file) {

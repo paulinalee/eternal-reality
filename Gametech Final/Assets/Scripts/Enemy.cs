@@ -7,11 +7,13 @@ public class Enemy : MonoBehaviour {
     private Transform child;
     private bool chasing;
     private Transform player;
-    public float speed = 5.0f;
-    public float range = 2.0f;
-    public float attackrate = 4.0f;
-    public int attackpower = 2;
-    public float health = 20.0f;
+    public GameObject collectable;
+    public float speed;
+    public float range;
+    public float attackrate;
+    public int attackpower;
+    public float health;
+    public float droprate = 0.1f;
     private float attackcooldown = 0.0f;
     Rigidbody rb;
     bool grounded;
@@ -39,7 +41,6 @@ public class Enemy : MonoBehaviour {
 	}
 
     public void colliderEntered(GameObject p) {
-        Debug.Log("player!!");
         chasing = true;
         player = p.transform;
     }
@@ -58,7 +59,6 @@ public class Enemy : MonoBehaviour {
             //stop moving, attack
             //transform.Translate(new Vector3(0, 0, 0));
             if (Time.time >= attackcooldown) {
-                Debug.Log("attack!!");
                 transform.Translate(new Vector3(0, 10.0f * Time.deltaTime, 0));
                 player.GetComponent<Player>().healthMod(attackpower * -1);
                 attackcooldown = Time.time + attackrate;
@@ -72,17 +72,18 @@ public class Enemy : MonoBehaviour {
     }
 
     public void isAttacked(float damage) {
-        Debug.Log("enemy attacked!");
         float kbforce = Random.Range(5.0f, 10.0f);
         GetComponent<Rigidbody>().AddForce(new Vector3(-transform.forward.x * kbforce, 5, -transform.forward.z * kbforce), ForceMode.Impulse);
         health = health - damage;
-        Debug.Log("health = " + health);
         if (health <= 0.0f) {
             die();
         }
     }
 
     private void die() {
+        if (Random.Range(0.0f, 1.0f) <= droprate) {
+            Instantiate(collectable, transform.position, Quaternion.identity);
+        }
         Destroy(gameObject);
     }
 }

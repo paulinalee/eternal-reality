@@ -29,16 +29,7 @@ public class UpgradeUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // prob remove this after debug done
-        if (Input.GetKeyUp(KeyCode.T)) {
-            Refresh();
-            canvas.enabled = !canvas.enabled;
-            if (canvas.enabled) {
-                player.setMovable(false);
-            } else {
-                player.setMovable(true);
-            }
-        }
+        // for DEBUG only
     }
 
     public void hideUpgrades() {
@@ -70,19 +61,25 @@ public class UpgradeUI : MonoBehaviour
 
         Text description = skillDisplay.transform.Find("Description").GetComponent<Text>();
         description.text = weaponSkill.getDescription();
-
         // Current stats
         updateStats(skillDisplay, "Current", weaponSkill.getCurrent());
 
+        Button upgradeButton = skillDisplay.transform.Find("Button").GetComponent<Button>();
         if (weaponSkill.isMaxed()) {
             skillDisplay.transform.Find("Next").GetComponent<Canvas>().enabled = false;
             skillDisplay.transform.Find("Max").GetComponent<Canvas>().enabled = true;
-            skillDisplay.transform.Find("Button").GetComponent<Button>().interactable = false;
+            upgradeButton.interactable = false;
+            upgradeButton.transform.Find("Text").GetComponent<Text>().text = "Upgrade";
         } else {
             // make sure everything is displaying even if you change weapons
             skillDisplay.transform.Find("Next").GetComponent<Canvas>().enabled = true;
             skillDisplay.transform.Find("Max").GetComponent<Canvas>().enabled = false;
-            skillDisplay.transform.Find("Button").GetComponent<Button>().interactable = true;
+            
+            int pointsNeeded = weaponSkill.getLevel() * 100;
+            upgradeButton.GetComponent<UpgradeButton>().setPointsNeeded(pointsNeeded);
+            upgradeButton.transform.Find("Text").GetComponent<Text>().text = "Upgrade (" + pointsNeeded.ToString() + " pts)";
+            
+            upgradeButton.interactable = player.getPoints() >= pointsNeeded ? true : false;
             // update the next skill values
             updateStats(skillDisplay, "Next", weaponSkill.getNext());
         }

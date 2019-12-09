@@ -19,7 +19,7 @@ public class SpawnController : MonoBehaviour
         uiManager = GameObject.Find("UI").GetComponent<UI>();
         teleportTimer = 5f;
         preRoundTimer = timeBetweenRounds;
-        enemiesperwave = 1; // remove this when youre done debugging!!!!!
+        enemiesperwave = 10; // remove this when youre done debugging!!!!!
         for (int i = 0; i < transform.childCount; ++i) {
             transform.GetChild(i).gameObject.SetActive(false);
         }
@@ -48,7 +48,6 @@ public class SpawnController : MonoBehaviour
                 currentwave += 1;
                 currentenemies = 0;
                 if (currentwave > 1) { // swap this back to 3 when done debugging
-                    Debug.Log("=====================ROUND OVER");
                     endRound();
                 }
             }
@@ -98,7 +97,6 @@ public class SpawnController : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.Log("ENTERED!!!");
             //game start! begin spawning
             for (int i = 0; i < transform.childCount; ++i)
             {
@@ -117,6 +115,19 @@ public class SpawnController : MonoBehaviour
 
     void showNPC() {
         npc.gameObject.SetActive(true);
-        npc.changeSpeechFile("roundEndLowHP");
+        Player player = GameObject.Find("Player").GetComponent<Player>();
+        int playerHealth, maxHealth;
+        playerHealth = player.getHealth();
+        maxHealth = player.getMaxHealth();
+        if (playerHealth >= (maxHealth * 3/4)) {
+            Debug.Log("ended round with high HP");
+            npc.changeSpeechFile("roundEndHighHP");
+        } else if (playerHealth >= (maxHealth * 1/4)) {
+            Debug.Log("ended round with ok HP");
+            npc.changeSpeechFile("roundEndMidHP");
+        } else {
+            Debug.Log("ended round with low hp");
+            npc.changeSpeechFile("roundEndLowHP");
+        }
     }
 }

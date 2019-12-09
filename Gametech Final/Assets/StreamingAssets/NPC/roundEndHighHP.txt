@@ -1,0 +1,20 @@
+Wow!
+You're doing great! Keep up the good work.
+If you have enough points, consider upgrading your weapon! A stronger weapon lets you complete rounds more quickly.
+What would you like to do?
+||OPTIONS
+I'd rather play it safe. (Heal)
+I want to try something new. (Swap weapons)
+I want to improve my weapon! (Upgrade weapon)
+I'm all set. (Next round)
+||BRANCHFILES
+roundEndHeal
+roundEndSelect
+roundEndUpgrade
+roundNextStart
+||METADATA
+heal
+reselect
+upgrade
+skip
+||ENDCHOICE

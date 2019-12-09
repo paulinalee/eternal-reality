@@ -15,6 +15,7 @@ public class CreateWeapon : EditorWindow {
     string name = "weapon";
     string descrip = "";
     string path = "";
+    int maxlv = 2;
     WeaponObject weapon;
 
     void OnEnable() {
@@ -33,7 +34,8 @@ public class CreateWeapon : EditorWindow {
 
     private void OnGUI()
     {
-        //scrollpos = EditorGUILayout.BeginScrollView(scrollpos, GUILayout.Height(height));
+        //Rect workarea = GUILayoutUtility.GetRect(0, 10000, 0, 10000);
+        //scrollpos = GUI.BeginScrollView(workarea, scrollpos, new Rect(0, 0, 70, 500));
         //Debug.Log("CREATEWEAPON ONGUI");
         if (GUILayout.Button("SAVE", GUILayout.Width(100)))
         {
@@ -48,6 +50,10 @@ public class CreateWeapon : EditorWindow {
         foreach (Skill s in skills)
         {
             s.Draw();
+            if (s.levels.Count > 2 && maxlv < s.levels.Count) {
+                maxlv = s.levels.Count;
+                //height += 100;
+            }
         }
         Rect descriptionPos = new Rect(weaponBoxPos.x, weaponBoxPos.yMax, weaponBoxPos.width, 15);
         showDescrip = EditorGUI.Foldout(descriptionPos, showDescrip, "EDIT WEAPON");
@@ -65,22 +71,22 @@ public class CreateWeapon : EditorWindow {
             GUILayout.EndVertical();
             GUILayout.EndArea();
         }
+        //GUI.EndScrollView();
         if (weaponBoxPos.Contains(Event.current.mousePosition))
         {
             if (Event.current.type == EventType.MouseDown)
             {
-                path = EditorUtility.OpenFilePanel("Load Weapon Image", "", "png");
+                path = EditorUtility.OpenFilePanel("Load Weapon Image", Application.dataPath + "/Resources", "png");
                 if (path.Length != 0)
                 {
-                    if (path.StartsWith(Application.streamingAssetsPath))
+                    if (path.StartsWith(Application.dataPath))
                     {
-                        path = "Assets" + path.Substring(Application.streamingAssetsPath.Length);
+                        path = "Assets" + path.Substring(Application.dataPath.Length);
                     }
-                    weaponTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                    weaponTexture = AssetDatabase.LoadAssetAtPath<Sprite>(path).texture;
                 }
             }
         }
-        //EditorGUILayout.EndScrollView();
     }
 
     public void setValues()

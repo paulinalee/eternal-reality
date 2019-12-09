@@ -1,0 +1,19 @@
+Hmm... you're doing... okay, I guess.
+There's always room for improvement!
+What would you like to do?
+||OPTIONS
+I'll heal up.
+Can I try a different weapon?
+I want to upgrade my weapon.
+I'm all set. (Next round)
+||BRANCHFILES
+roundEndHeal
+roundEndSelect
+roundEndUpgrade
+roundNextStart
+||METADATA
+heal
+reselect
+upgrade
+skip
+||ENDCHOICE

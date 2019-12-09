@@ -6,9 +6,11 @@ public class WeaponButton : MonoBehaviour
 {
     // Start is called before the first frame update
     private GameObject tooltipPanel, player;
+    private AudioSource sfx;
     void Start()
     {
         player = GameObject.Find("Player");
+        sfx = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -31,6 +33,7 @@ public class WeaponButton : MonoBehaviour
         npc.changeSpeechFile("ready");
         npc.ContinueAdvancing();
         npc.branchConversation();
+        sfx.Play();
     }
 
     public void showTooltip() {

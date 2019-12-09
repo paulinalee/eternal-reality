@@ -30,10 +30,13 @@ public class WeaponNPC : NPC
     }
     public override void advanceConversation() {
         if (!stopAdvancing) {
+            Debug.Log("advancing conversation");
             string nextLine = fileReader.ReadLine();
             if (string.IsNullOrEmpty(nextLine)) {
                 if (!weaponSelected) {
                     // have yet to select a weapon
+                    stopAdvancing = true;
+                    uiManager.playDialogueSound();
                     uiManager.displayWeapons();
                 } else if (weaponSelected) {
                     endConversation();
@@ -42,6 +45,7 @@ public class WeaponNPC : NPC
                 if (nextLine.StartsWith("||OPTIONS")) {
                     processBranches();
                 } else {
+                    uiManager.playDialogueSound();
                     uiManager.setSpeech(nextLine);
                 }
             }

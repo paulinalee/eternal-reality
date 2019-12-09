@@ -2,22 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+// using UnityEditor;
 public class Weapon : MonoBehaviour {
 
 	public string weaponName, weaponDescription, type, imagePath;
 	public WeaponSelect weaponManager;
-	private List<WeaponSkill> skills;
+	public List<WeaponSkill> skills = new List<WeaponSkill>();
+    Renderer render;
+    public Shader shader;
 	// Use this for initialization
 	void Start () {
-		weaponName = "Wood Stick";
-		weaponDescription = "A fragile stick from an old tree.";
-		WeaponSkill skill1 = new WeaponSkill("Whack", "Quick hit with a stick", "abcd.efg", 10, 5, 1);
-		WeaponSkill skill2 = new WeaponSkill("Swing", "Powerful hit", "abcd.efg", 13, 10, 1);
-		WeaponSkill skill3 = new WeaponSkill("Bonk", "Chaotic energy", "abcd.efg", 15, 3, 1);
 		skills = new List<WeaponSkill>();
-		skills.Add(skill1);
-		skills.Add(skill2);
-		skills.Add(skill3);
+        render = transform.GetComponent<Renderer>();
+		// weaponName = "Wood Stick";
+		// weaponDescription = "A fragile stick from an old tree.";
+		// WeaponSkill skill1 = new WeaponSkill("Whack", "Quick hit with a stick", "abcd.efg", 10, 5, 1);
+		// WeaponSkill skill2 = new WeaponSkill("Swing", "Powerful hit", "abcd.efg", 13, 10, 1);
+		// WeaponSkill skill3 = new WeaponSkill("Bonk", "Chaotic energy", "abcd.efg", 15, 3, 1);
+		// skills = new List<WeaponSkill>();
+		// skills.Add(skill1);
+		// skills.Add(skill2);
+		// skills.Add(skill3);
+		// Debug.Log(skills.Count);
 	}
 	
 	// Update is called once per frame
@@ -44,6 +50,7 @@ public class Weapon : MonoBehaviour {
 		bool alreadyUpgraded = weaponManager.alreadyUpgraded(weaponName);
 		weaponDescription = newWeapon.description;
 		imagePath = newWeapon.imgpath;
+        updateImage();
 		skills = new List<WeaponSkill>();
 
 		// construct the weapon object
@@ -56,7 +63,7 @@ public class Weapon : MonoBehaviour {
 			}
 
 			foreach(LevelInfo levelInfo in skillInfo.levels) {
-				levels.Add(new SkillLevel(levelInfo.power, levelInfo.range, levelInfo.speed));
+				levels.Add(new SkillLevel(levelInfo.power, levelInfo.speed, levelInfo.range));
 			}
 
 			WeaponSkill newSkill = new WeaponSkill(skillInfo.name, skillInfo.description, skillInfo.imgpath, levels);
@@ -66,13 +73,11 @@ public class Weapon : MonoBehaviour {
 			}
 			skills.Add(newSkill);
 		}
-		Debug.Log("weapon swapped to: " + weaponName);
 	}
 
     public void Attack(int skillnum)
     {
 		skillnum = skillnum - 1; // for indexing
-        Debug.Log("attacking");
         WeaponSkill skill = skills[skillnum];
         Collider[] colliders = Physics.OverlapSphere(transform.position, skill.getCurrent().getRange() * 5);
         foreach (Collider c in colliders)
@@ -90,5 +95,17 @@ public class Weapon : MonoBehaviour {
                 }
             }
         }
+	}
+
+    private void updateImage() {
+        render.material = new Material(shader);
+		string relativePath = imagePath;
+		relativePath = imagePath.Replace("Assets/Resources/", "");
+		relativePath = relativePath.Replace(".png", "");
+        render.material.mainTexture = Resources.Load<Texture>(relativePath);
     }
+
+	public void playSFX(int skillNumber) {
+		transform.GetChild(skillNumber).GetComponent<AudioSource>().Play();
+	}
 }

@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-
 public class UI : MonoBehaviour
 {
     // Start is called before the first frame update
-    private Canvas display, choiceDisplay, speechDisplay, weaponDisplay, healDisplay, roundStatusDisplay;
+    private Canvas display, choiceDisplay, speechDisplay, weaponDisplay, healDisplay, roundStatusDisplay, pointsDisplay, weaponInfoDisplay;
     private Slider playerHP;
     public GameObject skillBar;
 
     private UpgradeUI upgradeDisplay;
     public GameObject choiceButtonPrefab, weaponButtonPrefab, choiceContainer, weaponContainer;
-    private Text speechText, timerText, healthText, healPointsText;
+    private Text speechText, timerText, healthText, healPointsText, pointCounter;
     private Player player;
+
+    private AudioSource dialogueSFX;
     void Start()
+    {
+    }
+
+    void Awake()
     {
         display = GameObject.Find("NPCSpeech").GetComponent<Canvas>();
 
@@ -35,18 +40,21 @@ public class UI : MonoBehaviour
         timerText = GameObject.Find("RoundStatusView/Status/Countdown").GetComponent<Text>();
         playerHP = GameObject.Find("PlayerInfo/HP/Slider").GetComponent<Slider>();
         healthText = GameObject.Find("PlayerInfo/HP/Text").GetComponent<Text>();
-        skillBar = GameObject.Find("PlayerInfo/SkillBar/Panel");
         
         healPointsText = GameObject.Find("HealView/PointsRemaining").GetComponent<Text>();
         player = GameObject.Find("Player").GetComponent<Player>();
-    }
+        pointsDisplay = GameObject.Find("PointCounter").GetComponent<Canvas>();
+        pointCounter = pointsDisplay.gameObject.GetComponent<Text>();
 
+        weaponInfoDisplay = GameObject.Find("WeaponInfoView").GetComponent<Canvas>();
+        dialogueSFX = GameObject.Find("NPCSpeech").GetComponent<AudioSource>();
+        
+        updatePlayerHP(player.getHealth(), player.getHealth());
+    }
     // Update is called once per frame
     void Update()
     {
-        
     }
-
     public void displayWeapons() {
         speechDisplay.enabled = false;
         weaponDisplay.enabled = true;
@@ -83,10 +91,23 @@ public class UI : MonoBehaviour
         choiceDisplay.enabled = false;
         weaponDisplay.enabled = false;
         healDisplay.enabled = false;
+        weaponInfoDisplay.enabled = false;
+        weaponInfoDisplay.GetComponent<WeaponInfoUI>().toggleInteractable(false);
     }
 
     public void hideDialogueBox() {
         display.enabled = false;
+        weaponInfoDisplay.GetComponent<WeaponInfoUI>().toggleInteractable(true);
+    }
+
+    public void updatePoints(int newVal) {
+        pointCounter.GetComponent<AudioSource>().Play();
+        pointCounter.text = newVal.ToString() + " pts";
+    }
+
+    public void showPoints() {
+        pointsDisplay.enabled = true;
+        pointCounter.text = player.getPoints().ToString() + " pts";
     }
 
     public void displayChoices(Dictionary<string, string> choiceToFileMap, Dictionary<string, string> metadata) {
@@ -123,20 +144,37 @@ public class UI : MonoBehaviour
         }
     }
 
+    public void playDialogueSound() {
+        dialogueSFX.Play();
+    }
+
     public void displayHeals() {
         healDisplay.enabled = true;
         speechDisplay.enabled = false;
         weaponDisplay.enabled = false;
         healPointsText.text = "Points: " + player.getPoints().ToString();
+        foreach (Transform childButton in healDisplay.transform.Find("HealButtonContainer").transform) {
+            childButton.GetComponent<HealButton>().refresh();
+        }
     }
 
     public void displayUpgrades() {
-        Debug.Log("showing upgrade screen");
         upgradeDisplay.showUpgrades();
     }
 
     public void toggleRoundStatus(bool val) {
         roundStatusDisplay.enabled = val;
+    }
+    
+    public void updateSkillIcons(string[] assetPaths) {
+        for(int i = 0; i < 3; i++) {
+            Transform childSkill = skillBar.transform.GetChild(i);
+            string relativePath = assetPaths[i];
+            relativePath = relativePath.Replace("Assets/Resources/", "");
+            relativePath = relativePath.Replace(".png", "");
+            Debug.Log(relativePath);
+            childSkill.Find("Image").GetComponent<Image>().sprite = Resources.Load<Sprite>(relativePath);
+        }
     }
 
     public void showRoundEndMsg() {
@@ -152,6 +190,7 @@ public class UI : MonoBehaviour
     }
 
     public void toggleBranchingDialogue() {
+        Debug.Log("branching dialogue");
         choiceDisplay.enabled = false;
         speechDisplay.enabled = true;
         healDisplay.enabled = false;
@@ -166,9 +205,10 @@ public class UI : MonoBehaviour
         timerText.text = time.ToString();
     }
 
-    public void updatePlayerHP(int newVal) {
-        playerHP.value = newVal;
-        healthText.text = newVal.ToString() + " / 100";
+    public void updatePlayerHP(int newVal, int maxVal) {
+        playerHP.value = Math.Max(0, newVal);
+        playerHP.maxValue = maxVal;
+        healthText.text = newVal.ToString() + " / " + maxVal.ToString();
     }
 
     public void updateSkillBar(int skillNumber, bool isDisabled, float cooldownTime = 0) {

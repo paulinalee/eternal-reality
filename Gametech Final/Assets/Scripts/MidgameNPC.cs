@@ -25,10 +25,22 @@ public class MidgameNPC : NPC
         base.beginConversation();
     }
 
+
+    public override void changeSpeechFile(string newFile) {
+        if (newFile.Contains("HP")) {
+            originalFileName = newFile;
+            startNextRound = false;
+        }
+        base.changeSpeechFile(newFile);
+    }
+    
     public override void advanceConversation() {
         if (!stopAdvancing) {
             string nextLine = fileReader.ReadLine();
             if (string.IsNullOrEmpty(nextLine)) {
+                if (showWeapons || showHeal || showUpgrades) {
+                    uiManager.playDialogueSound();
+                }
                 if (showWeapons) {
                     stopAdvancing = true;
                     uiManager.displayWeapons();
@@ -55,6 +67,7 @@ public class MidgameNPC : NPC
                 if (nextLine.StartsWith("||OPTIONS")) {
                     processBranches();
                 } else {
+                    uiManager.playDialogueSound();
                     uiManager.setSpeech(nextLine);
                 }
             }

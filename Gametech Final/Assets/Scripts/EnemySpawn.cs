@@ -10,9 +10,9 @@ public class EnemySpawn : MonoBehaviour
     public float spawnrate = 2.0f;
     private float nextspawn = 0.0f;
     private float timer = 0.0f;
-    public float width = 75;
-    public float height = 30;
-    public float xwidth = 70;
+    public float width;
+    public float height;
+    public float xwidth;
     SpawnController spawner;
 
     // Start is called before the first frame update
